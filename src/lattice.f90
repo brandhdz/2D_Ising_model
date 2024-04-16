@@ -17,6 +17,4 @@ contains
   end subroutine set_memory_lattice
 
 
-
-
 end module latticeSpin
