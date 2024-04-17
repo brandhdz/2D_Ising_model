@@ -23,10 +23,28 @@ end subroutine setInitialConfig
 
 
 subroutine coldStart(lattice)
-    real(dp), dimension(:,:) :: lattice
-    !n = size(lattice(1, :))
+    real(dp), intent(out),  dimension(:,:) :: lattice
+    !Either one or -1 
     lattice = 1.0d0
+    !lattice = -1.0d0
 end subroutine coldStart
+
+subroutine hotStart(lattice)
+
+    real(dp), intent(out), dimension(:,:) :: lattice
+    real(dp), dimension(size(lattice(1, :))) :: r
+    integer(i4) :: j
+
+   
+    do j = lbound(lattice,1), ubound(lattice,1)
+        call random_number(r)
+        lattice(j, :) = 2*FLOOR(2*r) - 1   
+        write(*,*) lattice(j,:)
+    end do     
+   
+    
+  end subroutine hotStart
+
 
     
 end module init
