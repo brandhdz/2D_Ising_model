@@ -21,9 +21,8 @@ contains
     
   end function first_neighbors
 
-  subroutine hamiltonian(x, L, J)
+  subroutine hamiltonian(x, L)
     real(dp), intent(in), dimension(:,:) :: x
-    real(dp), intent(in) :: J
     real(dp) :: s, h
     integer(i4) :: m, n
     integer(i4), intent(in) :: L
@@ -36,10 +35,22 @@ contains
        end do
     end do
     
-    h = J*s
+    h = -s/2
 
     print*, h
   
   end subroutine hamiltonian
+
+  subroutine delta_hamiltonian(h, x, m, n, L, J)
+    real(dp), intent(in), dimension(:,:) :: x
+    real(dp), intent(in) :: h, J
+    real(dp) :: delta_h
+    integer(i4), intent(in) :: m, n, L
+
+    delta_h = h - J*first_neighbors(x, m, n, L)
+
+    print*, delta_h
+    
+  end subroutine delta_hamiltonian
   
 end module energy

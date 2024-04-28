@@ -8,7 +8,9 @@ program main
   real(dp), dimension(2,2)  :: x
   
   call set_boundary_conditions(2)
-  x = reshape([1, -1, 1, -1], [2, 2])
-  call hamiltonian(x, 2, 1.0_dp)
+  x = reshape([1, 1, 1, 1], [2, 2])
+  call hamiltonian(x, 2)
+  
+  !call delta_hamiltonian(h, x, 1, 1, 2, 1.0_dp)
   
 end program main
