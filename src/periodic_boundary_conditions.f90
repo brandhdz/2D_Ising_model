@@ -3,24 +3,25 @@ module periodic_boundary_conditions
   use iso_fortran_env, only : i4 => int32, dp => real64
   implicit none
 
+  integer(i4), allocatable, dimension(:) :: id_f
+  integer(i4), allocatable, dimension(:) :: id_b
+  
 contains
 
   subroutine set_boundary_conditions(L)
-    integer(i4) :: i, j
+    integer(i4) :: i
     integer(i4), intent(in) :: L
-    integer(i4), dimension(L, L) :: N
+
+    allocate(id_f(L), id_b(L))
 
     do i = 1, L
-       do j = 1, L
-          N(i, j) = i + (L-j)*L
-       end do
+       id_f(i) = i + 1 
+       id_b(i) = i - 1
     end do
 
-    N(1, :) = N(L, :)
-    N(:, 1) = N(:, L)
+    id_f(L) = 1
+    id_b(1) = L
 
-    print*, N
-    
   end subroutine set_boundary_conditions
-
+  
 end module periodic_boundary_conditions
