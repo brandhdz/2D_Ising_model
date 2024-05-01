@@ -1,9 +1,10 @@
 #! /bin/bash
-
+#chmod +x compile.sh To execute first time
 FC=gfortran
 SRC=./src
 BIN=./bin
 DATA=./data
+TARGET=ising_program_main.exe
 
 FFLAGS="-Wall -Wextra -fcheck=all -std=f2008 -O0"
 
@@ -22,4 +23,11 @@ else
 fi
 
 $FC $FFLAGS -J$BIN -c $SRC/parameters.f90 -o $BIN/parameters.o
+$FC $FFLAGS -J$BIN -c $SRC/lattice.f90 -o $BIN/lattice.o
+
+$FC $FFLAGS -J$BIN -c $SRC/main.f90 -o $BIN/main.o
+
+#Agarro todos lo que ya están compilados
+$FC $FFLAGS $BIN/*.o -o $BIN/$TARGET
+
 $BIN/$TARGET <<< parameters.dat

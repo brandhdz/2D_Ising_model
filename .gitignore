@@ -1,9 +1,10 @@
+#dir
+bin/
+data/
+
+#files
 .DS_Store
 *.o
 *.mod
 \#*#
 *~
-\tests
-\src\test.f90
-\bin
-data
