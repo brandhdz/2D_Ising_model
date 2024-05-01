@@ -24,6 +24,10 @@ fi
 
 $FC $FFLAGS -J$BIN -c $SRC/parameters.f90 -o $BIN/parameters.o
 $FC $FFLAGS -J$BIN -c $SRC/lattice.f90 -o $BIN/lattice.o
+$FC $FFLAGS -J$BIN -c $SRC/init.f90 -o $BIN/init.o
+$FC $FFLAGS -J$BIN -c $SRC/periodic_boundary_conditions.f90 -o $BIN/periodic_boundary_conditions.o
+$FC $FFLAGS -J$BIN -c $SRC/energy.f90 -o $BIN/energy.o
+
 
 $FC $FFLAGS -J$BIN -c $SRC/main.f90 -o $BIN/main.o
 
