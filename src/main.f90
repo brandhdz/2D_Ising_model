@@ -1,4 +1,5 @@
 program main
+
   use parameters 
   use latticeSpin
   use init
@@ -12,7 +13,5 @@ program main
   call setInitialConfig(x, start )
   call set_boundary_conditions(L)
   call hamiltonian(x, L)
-  
-  !print*, x
  
 end program main
