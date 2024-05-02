@@ -7,7 +7,7 @@ module parameters
     real(dp) :: dt, epsilon, lambda
     character(100) :: input_file, start, algorithm
   
-    namelist /input_parameters/ N_thermalization, N_measurements, N_skip, L, dt, epsilon,lambda, start, algorithm
+    namelist /input_parameters/  L, dt, epsilon,lambda, start, algorithm
   
   contains
   
@@ -24,10 +24,10 @@ module parameters
       if( L <= 0 ) error stop "L must be > 0"
       if( dt <= 0 ) error stop "dt must be > 0"
       if( epsilon <= 0 ) error stop "epsilon must be > 0"
-      if( N_thermalization <= 0 ) error stop "N_thermalization must be > 0"
-      if( N_measurements <= 0 ) error stop "N_measurements must be > 0"
-      if( N_skip <= 0 ) error stop "N_skip must be > 0"
-      if(algorithm /= "Glauber" .or. algorithm /= "Metropolis") error stop "Metropolis (default) or Glauber are the only options"
+      !if( N_thermalization <= 0 ) error stop "N_thermalization must be > 0"
+      !if( N_measurements <= 0 ) error stop "N_measurements must be > 0"
+      !if( N_skip <= 0 ) error stop "N_skip must be > 0"
+      !if(algorithm /= "Glauber" .or. algorithm /= "Metropolis") error stop "Metropolis (default) or Glauber are the only options"
   
       write(*, nml = input_parameters)
   

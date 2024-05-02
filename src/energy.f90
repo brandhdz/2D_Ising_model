@@ -41,16 +41,16 @@ contains
   
   end subroutine hamiltonian
 
-  subroutine delta_hamiltonian(h, x, m, n, L, J)
-    real(dp), intent(in), dimension(:,:) :: x
-    real(dp), intent(in) :: h, J
-    real(dp) :: delta_h
-    integer(i4), intent(in) :: m, n, L
+  !subroutine delta_hamiltonian(h, x, m, n, L, J)
+   ! real(dp), intent(in), dimension(:,:) :: x
+    !real(dp), intent(in) :: h, J
+    !real(dp) :: delta_h
+    !integer(i4), intent(in) :: m, n, L
 
-    delta_h = h - J*first_neighbors(x, m, n, L)
+    !delta_h = h - J*first_neighbors(x, m, n, L)
 
-    print*, delta_h
+    !print*, delta_h
     
-  end subroutine delta_hamiltonian
+ ! end subroutine delta_hamiltonian
   
 end module energy

@@ -1,5 +1,4 @@
 #dir
-src/test.f90
 bin/
 data/
 
@@ -9,3 +8,4 @@ data/
 *.mod
 \#*#
 *~
+

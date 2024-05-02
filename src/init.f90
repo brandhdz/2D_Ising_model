@@ -9,7 +9,7 @@ contains
 
 subroutine setInitialConfig(lattice,  start )
 
-    real(dp), dimension(:,:) :: lattice
+    real(dp),intent(inout), dimension(:,:) :: lattice
     character(100), intent(in) :: start
     
     if ( start == "hot" ) then
@@ -23,7 +23,7 @@ end subroutine setInitialConfig
 
 
 subroutine coldStart(lattice)
-    real(dp), intent(out),  dimension(:,:) :: lattice
+    real(dp), intent(inout),  dimension(:,:) :: lattice
     !Either one or -1 
     lattice = 1.0d0
     !lattice = -1.0d0
@@ -31,7 +31,7 @@ end subroutine coldStart
 
 subroutine hotStart(lattice)
 
-    real(dp), intent(out), dimension(:,:) :: lattice
+    real(dp), intent(inout), dimension(:,:) :: lattice
     real(dp), dimension(size(lattice(1, :))) :: r
     integer(i4) :: j
 
@@ -39,7 +39,7 @@ subroutine hotStart(lattice)
     do j = lbound(lattice,1), ubound(lattice,1)
         call random_number(r)
         lattice(j, :) = 2*FLOOR(2*r) - 1   
-        write(*,*) lattice(j,:)
+        !write(*,*) lattice(j,:)
     end do     
    
     
