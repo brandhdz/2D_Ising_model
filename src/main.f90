@@ -1,5 +1,5 @@
 program main
-  
+
   use parameters 
   use latticeSpin
   use init
