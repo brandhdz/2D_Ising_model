@@ -8,16 +8,14 @@ contains
 
   function first_neighbors(x, m, n, L) result(sfn)
     real(dp), intent(in), dimension(:,:) :: x
-    real(dp) :: lf_ngb, rg_ngb, up_ngb, dw_ngb
+    real(dp) :: rg_ngb, up_ngb
     real(dp) :: sfn
     integer(i4), intent(in) :: m, n, L
     
-    up_ngb = x(m, id_b(n))
-    dw_ngb = x(m, id_f(n))
-    rg_ngb = x(id_f(m), n)
-    lf_ngb = x(id_b(m), n)
+    up_ngb = x(id_b(m), n)
+    rg_ngb = x(m, id_f(n))
 
-    sfn = x(m,n)*(up_ngb+dw_ngb+rg_ngb+lf_ngb)
+    sfn = x(m,n)*(up_ngb+rg_ngb)
     
   end function first_neighbors
 
@@ -35,21 +33,25 @@ contains
        end do
     end do
     
-    h = -s/2
+    h = -s
 
     print*, h
   
   end subroutine hamiltonian
 
-  subroutine delta_hamiltonian(h, x, m, n, L, J)
+  subroutine delta_hamiltonian(x, m, n, L)
     real(dp), intent(in), dimension(:,:) :: x
-    real(dp), intent(in) :: h, J
-    real(dp) :: delta_h
+    real(dp) :: rg_ngb, up_ngb, lf_ngb, dw_ngb, dh
     integer(i4), intent(in) :: m, n, L
+    
+    up_ngb = x(id_b(m), n)
+    rg_ngb = x(m, id_f(n))
+    dw_ngb = x(id_f(m), n)
+    lf_ngb = x(m, id_b(n))
 
-    delta_h = h - J*first_neighbors(x, m, n, L)
+    dh = -2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
 
-    print*, delta_h
+    print*, dh
     
   end subroutine delta_hamiltonian
   
