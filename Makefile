@@ -3,7 +3,7 @@ SRC = src
 BIN = bin
 TARGET = executable.exe
 
-SOURCE_FILES = periodic_boundary_conditions.f90 energy.f90 main.f90
+SOURCE_FILES = parameters.f90 lattice.f90 init.f90 periodic_boundary_conditions.f90 energy.f90 main.f90
 OBJECTS = $(patsubst %, $(BIN)/%, $(SOURCE_FILES:.f90=.o))
 
 $(BIN)/$(TARGET): $(OBJECTS)

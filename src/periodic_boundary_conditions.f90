@@ -1,6 +1,6 @@
 module periodic_boundary_conditions
 
-  use iso_fortran_env, only : i4 => int32, dp => real64
+  use iso_fortran_env, only : i4 => int32
   implicit none
 
   integer(i4), allocatable, dimension(:) :: id_f

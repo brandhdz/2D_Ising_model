@@ -6,11 +6,10 @@ module energy
 
 contains
 
-  function first_neighbors(x, m, n, L) result(sfn)
-    real(dp), intent(in), dimension(:,:) :: x
-    real(dp) :: rg_ngb, up_ngb
-    real(dp) :: sfn
-    integer(i4), intent(in) :: m, n, L
+  function first_neighbors(x, m, n) result(sfn)
+    integer(i4), intent(in), dimension(:,:) :: x
+    integer(i4), intent(in) :: m, n
+    integer(i4) :: rg_ngb, up_ngb, sfn
     
     up_ngb = x(id_b(m), n)
     rg_ngb = x(m, id_f(n))
@@ -20,16 +19,15 @@ contains
   end function first_neighbors
 
   subroutine hamiltonian(x, L)
-    real(dp), intent(in), dimension(:,:) :: x
-    real(dp) :: s, h
-    integer(i4) :: m, n
+    integer(i4), intent(in), dimension(:,:) :: x
     integer(i4), intent(in) :: L
-
-    s = 0.0_dp
+    integer(i4) :: m, n, s, h
+    
+    s = 0
 
     do m = 1, L
        do n = 1, L
-          s = s + first_neighbors(x, m, n, L)
+          s = s + first_neighbors(x, m, n)
        end do
     end do
     
@@ -39,10 +37,10 @@ contains
   
   end subroutine hamiltonian
 
-  subroutine delta_hamiltonian(x, m, n, L)
-    real(dp), intent(in), dimension(:,:) :: x
-    real(dp) :: rg_ngb, up_ngb, lf_ngb, dw_ngb, dh
-    integer(i4), intent(in) :: m, n, L
+  subroutine delta_hamiltonian(x, m, n)
+    integer(i4), intent(in), dimension(:,:) :: x
+    integer(i4), intent(in) :: m, n
+    integer(i4) :: rg_ngb, up_ngb, lf_ngb, dw_ngb, dh
     
     up_ngb = x(id_b(m), n)
     rg_ngb = x(m, id_f(n))
