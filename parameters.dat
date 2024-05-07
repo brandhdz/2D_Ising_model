@@ -3,6 +3,6 @@ L = 3,
 dt = 0.1,
 epsilon = 1.0,
 lambda = 0.0,
-start = "cold"
+start = "hot"
 algorithm = "Metropolis"
 /

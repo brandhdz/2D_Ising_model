@@ -16,6 +16,7 @@ module local_update_algorithms
       if ( r < p ) then
          x0 = xnew
       end if
+      !print*, x0
       
     end subroutine metropolis
   

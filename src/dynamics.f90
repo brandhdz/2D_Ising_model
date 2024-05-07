@@ -16,7 +16,7 @@ module dynamics
     do i = 1, size(x(1, :))
         do j = 1, size(x(1, :))
 
-            xnew = -x(i,1)
+            xnew = -x(i,j)
             call delta_hamiltonian(x, i, j)
             call metropolis(x(i,j), xnew, dh)
         end do
