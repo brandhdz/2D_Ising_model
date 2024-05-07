@@ -28,6 +28,8 @@ $FC $FFLAGS -J$BIN -c $SRC/init.f90 -o $BIN/init.o
 $FC $FFLAGS -J$BIN -c $SRC/periodic_boundary_conditions.f90 -o $BIN/periodic_boundary_conditions.o
 $FC $FFLAGS -J$BIN -c $SRC/energy.f90 -o $BIN/energy.o
 $FC $FFLAGS -J$BIN -c $SRC/local_update_algorithms.f90 -o $BIN/local_update_algorithms.o
+$FC $FFLAGS -J$BIN -c $SRC/dynamics.f90 -o $BIN/dynamics.o
+
 
 
 $FC $FFLAGS -J$BIN -c $SRC/main.f90 -o $BIN/main.o

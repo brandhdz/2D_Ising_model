@@ -6,6 +6,7 @@ program main
   use periodic_boundary_conditions
   use energy
   use local_update_algorithms
+  use dynamics
 
   implicit none
   real(dp) :: xn, dh
@@ -17,11 +18,15 @@ program main
   call setInitialConfig(x, start )
   call set_boundary_conditions(L)
   call hamiltonian(x, L)
+
   
   print*, x(1,1)
   xn = -x(1,1)
   !call metropolis(x(1,1), xn, DH)
   !call glauber(x(1,1), xn, DH)
-  print*, x(1,1)
+  print*, x
+  !call sweep(x)
+  print*, x
+  !print*, x(1,1)
  
 end program main
