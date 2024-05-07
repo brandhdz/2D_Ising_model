@@ -1,10 +1,10 @@
 module latticeSpin
 
-  use iso_fortran_env, only: dp => real64, i4 => int32
+  use iso_fortran_env, only: i4 => int32
 
   implicit none
 
-  real(dp), allocatable, dimension(:,:) :: x
+  integer(i4), allocatable, dimension(:,:) :: x
 
 contains
 

@@ -1,5 +1,5 @@
 #! /bin/bash
-#chmod +x compile.sh To execute first time
+
 FC=gfortran
 SRC=./src
 BIN=./bin
@@ -33,8 +33,5 @@ $FC $FFLAGS -J$BIN -c $SRC/dynamics.f90 -o $BIN/dynamics.o
 
 
 $FC $FFLAGS -J$BIN -c $SRC/main.f90 -o $BIN/main.o
-
-#Agarro todos lo que ya están compilados
 $FC $FFLAGS $BIN/*.o -o $BIN/$TARGET
-
 $BIN/$TARGET <<< parameters.dat
