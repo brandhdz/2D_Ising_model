@@ -5,32 +5,32 @@ module local_update_algorithms
   
   contains
   
-    subroutine metropolis(xo, xn, dh)
+    subroutine metropolis(x0, xnew, dh)
   
       real(dp) :: r, p
-      real(dp), intent(inout) :: xo
-      real(dp), intent(in) :: xn, dh
-  
+      real(dp), intent(inout) :: x0
+      real(dp), intent(in) :: xnew, dh
+      
       call random_number(r)
       p = MIN(1.0_dp, EXP(-dh))
   
       if ( r < p ) then
-         xo = xn
+         x0 = xnew
       end if
       
     end subroutine metropolis
   
-    subroutine glauber(xo, xn, ds)
+    subroutine glauber(x0, xnew, dh)
   
       real(dp) :: r, p
-      real(dp), intent(inout) :: xo
-      real(dp), intent(in) :: xn, ds
+      real(dp), intent(inout) :: x0
+      real(dp), intent(in) :: xnew, dh
   
       call random_number(r)
-      p = 1/(EXP(ds)+1.0_dp)
+      p = 1/(EXP(dh)+1.0_dp)
   
       if ( r < p ) then
-         xo = xn
+         x0 = xnew
       end if
       
     end subroutine glauber
