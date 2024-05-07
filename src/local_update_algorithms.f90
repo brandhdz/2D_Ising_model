@@ -6,7 +6,6 @@ module local_update_algorithms
   contains
   
     subroutine metropolis(x0, xnew, dh)
-  
       real(dp) :: r, p
       real(dp), intent(inout) :: x0
       real(dp), intent(in) :: xnew, dh
