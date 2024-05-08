@@ -12,9 +12,11 @@ $(BIN)/$(TARGET): $(OBJECTS)
 $(BIN)/%.o: $(SRC)/%.f90
 	$(FC) -c -J$(BIN) -I$(BIN) $< -o $@
 
-.PHONY: clean run
+.PHONY: clean run bindir
 
 clean:
 	rm $(BIN)/*
 run:
 	$(BIN)/$(TARGET)
+bindir:
+	mkdir $(BIN)/
