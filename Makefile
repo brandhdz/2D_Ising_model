@@ -14,9 +14,9 @@ $(BIN)/%.o: $(SRC)/%.f90
 
 .PHONY: clean run bindir
 
-clean:
+clean: 
 	rm $(BIN)/*
 run:
 	$(BIN)/$(TARGET)
 bindir:
-	mkdir $(BIN)/
+	mkdir $(BIN)
