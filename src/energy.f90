@@ -18,10 +18,11 @@ contains
     
   end function first_neighbors
 
-  subroutine hamiltonian(x, L)
+  subroutine hamiltonian(x, L, h)
     integer(i4), intent(in), dimension(:,:) :: x
     integer(i4), intent(in) :: L
-    integer(i4) :: m, n, s, h
+    integer(i4), intent(inout) :: h
+    integer(i4) :: m, n, s
     
     s = 0
 
@@ -33,7 +34,7 @@ contains
     
     h = -s
 
-    print*, h
+   !print*, h
   
   end subroutine hamiltonian
 
