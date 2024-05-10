@@ -49,7 +49,7 @@ contains
 
     dh = -2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
 
-   ! print*, dh
+   print*, dh
     
   end subroutine delta_hamiltonian
   

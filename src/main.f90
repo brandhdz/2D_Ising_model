@@ -16,8 +16,11 @@ program main
   call set_boundary_conditions(L)
   print*, "Original"
   print*, x
+  call hamiltonian(x, L)
   print*, "Sweep"
-  call sweep(x)
+  x(1,1) = -1
   print*, x
- 
+  call hamiltonian(x, L)
+  call delta_hamiltonian(x, 1, 1)
+  
 end program main
