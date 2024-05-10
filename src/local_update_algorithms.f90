@@ -7,8 +7,8 @@ module local_update_algorithms
   
     subroutine metropolis(x0, xnew, dh, beta)
       real(dp) :: r, p
-      integer(i4), intent(inout) :: x0, xnew
-      real(dp), intent(in) :: dh, beta !beta = 1/T
+      integer(i4), intent(inout) :: x0, xnew, dh
+      real(dp), intent(in) :: beta !beta = 1/T
     
       call random_number(r)
       p = MIN(1.0_dp, EXP(-beta*dh))
@@ -22,8 +22,8 @@ module local_update_algorithms
     subroutine glauber(x0, xnew, dh, beta)
   
       real(dp) :: r, p
-      integer(i4), intent(inout) :: x0, xnew
-      real(dp), intent(in) :: dh, beta
+      integer(i4), intent(inout) :: x0, xnew, dh
+      real(dp), intent(in) :: beta
   
       call random_number(r)
       p = 1/( EXP(beta*dh) +1.0_dp)

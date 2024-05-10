@@ -9,26 +9,27 @@ module dynamics
   
   contains
   subroutine seq_sweep(x, beta)
-    integer(i4) :: i,j,xnew
-    real(dp) :: dh, beta!Energy diferrence
+    integer(i4) :: i,j,xnew, dh
+    real(dp) :: beta!Energy diferrence
     integer(i4), intent(inout), dimension(:,:)  :: x !Lattice
 
     do i = 1, size(x(1, :))
         do j = 1, size(x(1, :))
             !call random_number(r)
            xnew = -x(i,j)
-           call delta_hamiltonian(x, i, j)
-           call glauber(x(i,j), xnew, dh, beta)
-           !call metropolis(x(i,j), xnew, dh, beta)
+           call delta_hamiltonian(x, i, j, dh)
+           !print*,dh
+           !call glauber(x(i,j), xnew, dh, beta)
+           call metropolis(x(i,j), xnew, dh, beta)
         end do
     end do
       
     end subroutine seq_sweep
 
     subroutine random_sweep(x, beta, L)
-      integer(i4) :: i, j, xnew, m,n
+      integer(i4) :: i, j, xnew, m,n,  dh
       integer(i4), intent(in) :: L
-      real(dp) :: dh, beta!Energy diferrence
+      real(dp) :: beta!Energy diferrence
       integer(i4), intent(inout), dimension(:,:)  :: x !Lattice
      
       do i = 1, size(x(1, :))
@@ -36,9 +37,9 @@ module dynamics
             !call random_number(r)
           call drawrandomnumber(L, m ,n )
            xnew = -x(m,n)
-           call delta_hamiltonian(x, m, n)
-           call glauber(x(m,n), xnew, dh, beta)
-           !call metropolis(x(i,j), xnew, dh, beta)
+           call delta_hamiltonian(x, m, n, dh)
+           !call glauber(x(i,j), xnew, dh, beta)
+           call metropolis(x(m, n), xnew, dh, beta)
         end do
        end do
 
@@ -72,10 +73,12 @@ module dynamics
     
     call setInitialConfig(x,  start )
     call magnetization(x,  L, M)
-   ! print*, x
+    print*, M
 
     !open(newunit = unit, file = "./data/seq_update_Mag.dat")
     open(newunit = unit, file = "./data/random_update_Mag.dat")
+    !open(newunit = unit, file = "./data/random_update_Mag_L18.dat")
+    
     
 
     call hamiltonian(x, L, h)

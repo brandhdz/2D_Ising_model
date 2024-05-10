@@ -38,19 +38,20 @@ contains
   
   end subroutine hamiltonian
 
-  subroutine delta_hamiltonian(x, m, n)
+  subroutine delta_hamiltonian(x, m, n, dh)
     integer(i4), intent(in), dimension(:,:) :: x
     integer(i4), intent(in) :: m, n
-    integer(i4) :: rg_ngb, up_ngb, lf_ngb, dw_ngb, dh
+    integer(i4) :: rg_ngb, up_ngb, lf_ngb, dw_ngb
+    integer(i4), intent(inout) :: dh
     
     up_ngb = x(id_b(m), n)
     rg_ngb = x(m, id_f(n))
     dw_ngb = x(id_f(m), n)
     lf_ngb = x(m, id_b(n))
 
-    dh = -2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
+    dh = 2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
 
-   ! print*, dh
+   !print*, dh
     
   end subroutine delta_hamiltonian
   
