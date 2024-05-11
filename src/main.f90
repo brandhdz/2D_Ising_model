@@ -22,5 +22,10 @@ program main
   print*, x
   call hamiltonian(x, L)
   call delta_hamiltonian(x, 1, 1)
+  print*, "Sweep 2"
+  x(2,2) = -1
+  print*, x
+  call hamiltonian(x, L)
+  call delta_hamiltonian(x, 2, 2)
   
 end program main
