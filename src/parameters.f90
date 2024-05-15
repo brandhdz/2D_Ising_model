@@ -7,7 +7,7 @@ module parameters
     character(100) :: input_file, start, algorithm
     real(dp) :: beta
   
-    namelist /input_parameters/  L, start, algorithm, N_thermalization, beta
+    namelist /input_parameters/  L, start, algorithm, N_thermalization, N_measurements, N_skip,  beta
   
   contains
   

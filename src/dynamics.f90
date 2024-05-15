@@ -124,4 +124,82 @@ module dynamics
     
   end subroutine magnetization
 
+
+
+  subroutine measure_sweeps(lattice, beta, L, N_measurements, N_skip, mean_mag)
+    integer(i4), intent(inout), dimension(:,:) :: lattice
+    
+    integer(i4) :: i, unit
+    integer(i4), intent(in) :: N_measurements, N_skip, L
+    real(dp), intent(in) :: beta
+    real(dp), intent(out) :: mean_mag
+    real(dp), dimension(N_measurements) :: M_array
+    real(dp) ::  m_n
+  
+    
+    
+    open(newunit = unit, file = "./data/mag_measure.dat")
+    
+    do i = 1, N_measurements*N_skip
+       
+       call random_sweep(lattice, beta, L)
+       
+       if ( mod(i, N_skip) == 0 ) then
+          call  magnetization(lattice,  L, m_n)
+          M_array(i/10) = m_n
+          write(unit, *) m_n
+       end if
+       
+    end do
+    call mean_magnetization(M_array,  mean_mag)
+    print*, mean_mag
+
+    close(unit)
+    
+  end subroutine measure_sweeps
+
+  subroutine mean_magnetization(m_array, mean_mag)
+  
+    real(dp),intent(in), dimension(:) :: m_array
+    real(dp), intent(out) :: mean_mag
+ 
+    integer(i4) :: index, L
+    L = size(m_array)
+    mean_mag = 0.0_dp
+  
+    do index = 1, L
+      mean_mag=  mean_mag + (m_array(index))
+    end do
+    mean_mag = abs(mean_mag/L)
+    !val = sum(x_array**2)/size(x_array)
+    
+  end subroutine mean_magnetization
+
+  subroutine multiple_beta(lattice, beta_array, L, N_measurements, N_skip)
+
+    integer(i4), intent(inout), dimension(:,:) :: lattice
+    
+    integer(i4) :: index, unit
+    integer(i4), intent(in) :: N_measurements, N_skip, L
+  
+    
+    real(dp), dimension(:) ::  beta_array
+
+    real(dp) :: mean_mag, m_n
+
+    
+    open(newunit = unit, file = "./data/beta_measures.dat")
+
+    do index = 1, size(beta_array)
+      
+      call measure_sweeps(lattice, beta_array(index), L, N_measurements, N_skip , mean_mag)
+
+      write(unit, *) beta_array(index), mean_mag
+    end do
+
+  
+    close(unit)
+  end subroutine multiple_beta
+  
+
   end module dynamics

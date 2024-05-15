@@ -49,7 +49,7 @@ contains
     dw_ngb = x(id_f(m), n)
     lf_ngb = x(m, id_b(n))
 
-    dh = -2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
+    dh = 2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
 
    !print*, dh
     
