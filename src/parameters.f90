@@ -5,8 +5,9 @@ module parameters
   
     integer(i4) :: L, N_thermalization, N_measurements, N_skip
     character(100) :: input_file, start, algorithm
+    real(dp) :: beta
   
-    namelist /input_parameters/  L, start, algorithm
+    namelist /input_parameters/  L, start, algorithm, N_thermalization, beta
   
   contains
   
