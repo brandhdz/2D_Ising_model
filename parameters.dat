@@ -1,7 +1,7 @@
 &input_parameters
-L = 256,
+L = 120,
 start = "cold",
 algorithm = "Metropolis",
-N_thermalization = 500,
-beta = 0.44
+N_thermalization =30 ,
+beta = 0.
 /

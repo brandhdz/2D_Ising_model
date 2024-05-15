@@ -118,7 +118,7 @@ module dynamics
   end do
 
     M =real(s)/real(L)**2
-    print*,M
+   ! print*,M
     
   
     
