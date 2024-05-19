@@ -33,8 +33,6 @@ contains
     end do
     
     h = -s
-
-   !print*, h
   
   end subroutine hamiltonian
 
@@ -50,8 +48,6 @@ contains
     lf_ngb = x(m, id_b(n))
 
     dh = 2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
-
-   !print*, dh
     
   end subroutine delta_hamiltonian
   

@@ -1,6 +1,7 @@
 module dynamics
 
     use iso_fortran_env, only : dp => real64, i4 => int32
+    use str_conv
     use init
     use local_update_algorithms
     use energy
@@ -8,6 +9,7 @@ module dynamics
     implicit none
   
   contains
+    
   subroutine seq_sweep(x, beta)
     integer(i4) :: i,j,xnew, dh
     real(dp) :: beta!Energy diferrence
@@ -41,9 +43,8 @@ module dynamics
            !call glauber(x(i,j), xnew, dh, beta)
            call metropolis(x(m, n), xnew, dh, beta)
         end do
-       end do
-
-
+     end do
+     
       end subroutine random_sweep
 
   subroutine drawrandomnumber(L, i ,j )
@@ -61,12 +62,10 @@ module dynamics
     
   end subroutine drawrandomnumber
 
-
   subroutine thermalization(start, x, N_thermalization, L, beta)
 
     integer(i4) :: i, unit, h
     integer(i4), intent(in) :: N_thermalization, L
-
     integer(i4), intent(inout), dimension(:,:) :: x
     character(100), intent(in) :: start
     real(dp) :: beta,  M
@@ -78,8 +77,6 @@ module dynamics
     !open(newunit = unit, file = "./data/seq_update_Mag.dat")
     open(newunit = unit, file = "./data/random_update_Mag.dat")
     !open(newunit = unit, file = "./data/random_update_Mag_L18.dat")
-    
-    
 
     call hamiltonian(x, L, h)
     
@@ -100,15 +97,49 @@ module dynamics
     close(unit)
     
   end subroutine thermalization
+  
+  subroutine measure_sweeps(lattice, beta, L, N_measurements, N_skip)
+    integer(i4), intent(inout), dimension(:,:) :: lattice
+    integer(i4) :: i, unit, h, h_mean
+    integer(i4), intent(in) :: N_measurements, N_skip, L
+    real(dp), intent(in) :: beta
+    real(dp) :: mean_mag, m_n
+    integer(i4), dimension(N_measurements) :: h_array
+    real(dp), dimension(N_measurements) :: M_array
+    
+    open(newunit = unit, file = "./data/beta="//trim(real2str(beta))//"_measure.dat")
+    
+    do i = 1, N_measurements*N_skip
+       
+       call random_sweep(lattice, beta, L)
+       
+       if ( mod(i, N_skip) == 0 ) then
+          call hamiltonian(lattice, L, h)
+          call magnetization(lattice,  L, m_n)
+          h_array(i/N_skip) = h
+          M_array(i/N_skip) = m_n
+          write(unit, *) h, m_n
+       end if
+       
+    end do
 
+    close(unit)
+
+    open(newunit = unit, file = "./data/mean_values.dat")
     
-  subroutine magnetization(lattice,  L, M)
+    call mean_energy(h_array,  h_mean) 
+    call mean_magnetization(M_array,  mean_mag)   
+    write(unit, *) h_mean, mean_mag
+
+    close(unit)
+    
+  end subroutine measure_sweeps
+
+   subroutine magnetization(lattice,  L, M)
     integer(i4) :: i, j, s
-    
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4), intent(in) :: L
     real(dp), intent(inout) :: M
-    
 
     s = 0
     do i = 1, size(lattice(1, :))
@@ -120,44 +151,24 @@ module dynamics
     M =real(s)/real(L)**2
    ! print*,M
     
-  
-    
   end subroutine magnetization
-
-
-
-  subroutine measure_sweeps(lattice, beta, L, N_measurements, N_skip, mean_mag)
-    integer(i4), intent(inout), dimension(:,:) :: lattice
-    
-    integer(i4) :: i, unit
-    integer(i4), intent(in) :: N_measurements, N_skip, L
-    real(dp), intent(in) :: beta
-    real(dp), intent(out) :: mean_mag
-    real(dp), dimension(N_measurements) :: M_array
-    real(dp) ::  m_n
   
-    
-    
-    open(newunit = unit, file = "./data/mag_measure.dat")
-    
-    do i = 1, N_measurements*N_skip
-       
-       call random_sweep(lattice, beta, L)
-       
-       if ( mod(i, N_skip) == 0 ) then
-          call  magnetization(lattice,  L, m_n)
-          M_array(i/10) = m_n
-          write(unit, *) m_n
-       end if
-       
-    end do
-    call mean_magnetization(M_array,  mean_mag)
-    print*, mean_mag
+  subroutine mean_energy(h_array, h_mean)
+  
+    integer(i4),intent(in), dimension(:) :: h_array
+    integer(i4), intent(out) :: h_mean
+    integer(i4) :: i
+  
+    h_mean = 0
+  
+    do i = 1, size(h_array)
+      h_mean = h_mean + h_array(i)
+   end do
 
-    close(unit)
-    
-  end subroutine measure_sweeps
-
+   h_mean = h_mean/size(h_array)
+   
+  end subroutine mean_energy
+  
   subroutine mean_magnetization(m_array, mean_mag)
   
     real(dp),intent(in), dimension(:) :: m_array
@@ -175,31 +186,22 @@ module dynamics
     
   end subroutine mean_magnetization
 
-  subroutine multiple_beta(lattice, beta_array, L, N_measurements, N_skip)
+ ! subroutine multiple_beta(lattice, beta_array, L, N_measurements, N_skip)
 
-    integer(i4), intent(inout), dimension(:,:) :: lattice
+   ! integer(i4), intent(inout), dimension(:,:) :: lattice
+   ! integer(i4) :: index, unit
+   ! integer(i4), intent(in) :: N_measurements, N_skip, L
+   ! real(dp), dimension(:) ::  beta_array
+   ! real(dp) :: mean_mag, m_n
     
-    integer(i4) :: index, unit
-    integer(i4), intent(in) :: N_measurements, N_skip, L
+   ! open(newunit = unit, file = "./data/beta_measures.dat")
+
+    !do index = 1, size(beta_array)
+     ! call measure_sweeps(lattice, beta_array(index), L, N_measurements, N_skip , mean_mag)
+     ! write(unit, *) beta_array(index), mean_mag
+    !end do
   
-    
-    real(dp), dimension(:) ::  beta_array
-
-    real(dp) :: mean_mag, m_n
-
-    
-    open(newunit = unit, file = "./data/beta_measures.dat")
-
-    do index = 1, size(beta_array)
-      
-      call measure_sweeps(lattice, beta_array(index), L, N_measurements, N_skip , mean_mag)
-
-      write(unit, *) beta_array(index), mean_mag
-    end do
-
-  
-    close(unit)
-  end subroutine multiple_beta
-  
+    !close(unit)
+  !end subroutine multiple_beta
 
   end module dynamics
