@@ -4,8 +4,9 @@ start = "cold",
 algorithm = "Metropolis",
 N_thermalization = 100 ,
 N_measurements= 100,
-N_skip = 1,
-beta = 0.30
-
-
+N_skip = 10,
+a = 0,
+b = 1,
+N_beta = 10,
 /
+

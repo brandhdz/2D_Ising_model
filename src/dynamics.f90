@@ -125,11 +125,11 @@ module dynamics
 
     close(unit)
 
-    open(newunit = unit, file = "./data/mean_values.dat")
+    open(newunit = unit, file = "./data/mean_values.dat", action = "write", position = "append")
     
     call mean_energy(h_array,  h_mean) 
     call mean_magnetization(M_array,  mean_mag)   
-    write(unit, *) h_mean, mean_mag
+    write(unit, *) beta, h_mean, mean_mag
 
     close(unit)
     
