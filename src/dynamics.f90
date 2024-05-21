@@ -104,7 +104,7 @@ module dynamics
     integer(i4) :: i, unit, h, h_mean
     integer(i4), intent(in) :: N_measurements, N_skip, L
     real(dp), intent(in) :: beta
-    real(dp) :: mean_mag, m_n, chi
+    real(dp) :: mean_mag, m_n, h_c, chi
     integer(i4), dimension(N_measurements) :: h_array
     real(dp), dimension(N_measurements) :: M_array
     
@@ -128,10 +128,11 @@ module dynamics
 
     open(newunit = unit, file = "./data/mean_values.dat", action = "write", position = "append")
     
-    call mean_energy(h_array,  h_mean) 
+    call mean_energy(h_array,  h_mean)
+    call heat_capacity(h_array, beta, h_c)
     call mean_magnetization(M_array,  mean_mag)   
-    call susceptibility(m_array, chi)
-    write(unit, *) beta, h_mean, mean_mag, chi
+    call susceptibility(m_array, L, chi)
+    write(unit, *) beta, h_mean, h_c,  mean_mag, chi
 
     close(unit)
     

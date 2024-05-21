@@ -40,12 +40,13 @@ contains
     
   end subroutine mean_magnetization
 
-  subroutine susceptibility(m_array, chi)
+  subroutine susceptibility(m_array, L, chi)
 
     integer(i4) :: i
+    integer(i4), intent(in) :: L
     real(dp),intent(in), dimension(:) :: m_array
     real(dp), intent(out) :: chi
-    real(dp) :: m2
+    real(dp) m2
 
     m2 = 0_dp
     
@@ -53,7 +54,7 @@ contains
        m2 = m2 + m_array(i)**2
     end do
    
-    chi = m2/size(m_array) - (SUM(m_array)/size(m_array))**2
+    chi = (m2/size(m_array) - (SUM(m_array)/size(m_array))**2)*L**2
     
   end subroutine susceptibility
 
