@@ -21,3 +21,6 @@ clean:
 	rm $(DATA)/*
 run:
 	$(BIN)/$(TARGET) <<< parameters.dat
+
+plot:
+	python plots.py
