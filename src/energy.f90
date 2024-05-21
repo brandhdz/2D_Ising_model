@@ -33,8 +33,6 @@ contains
     end do
     
     h = -s
-
-   !print*, h
   
   end subroutine hamiltonian
 
@@ -50,9 +48,32 @@ contains
     lf_ngb = x(m, id_b(n))
 
     dh = 2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
-
-   !print*, dh
     
   end subroutine delta_hamiltonian
+  
+  subroutine mean_energy(h_array, h_mean)
+  integer(i4),intent(in), dimension(:) :: h_array
+  integer(i4), intent(out) :: h_mean
+
+   h_mean = SUM(h_array)/size(h_array)
+   
+ end subroutine mean_energy
+
+  subroutine heat_capacity(h_array, beta, h_c)
+
+    integer(i4) :: i, h2
+    integer(i4),intent(in), dimension(:) :: h_array
+    real(dp), intent(in) :: beta
+    real(dp), intent(out) :: h_c
+
+    h2 = 0
+    
+    do i = 1, size(h_array)
+       h2 = h2 + h_array(i)**2
+    end do
+   
+    h_c = (h2/size(h_array) - (SUM(h_array)/size(h_array))**2)*beta**2
+    
+  end subroutine heat_capacity
   
 end module energy

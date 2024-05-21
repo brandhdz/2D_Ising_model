@@ -2,10 +2,11 @@
 L = 30,
 start = "cold",
 algorithm = "Metropolis",
-N_thermalization =30 ,
+N_thermalization = 1000,
 N_measurements= 1000,
 N_skip = 10,
-beta = 0.30
-
-
+a = 0,
+b = 1,
+N_beta = 100,
 /
+
