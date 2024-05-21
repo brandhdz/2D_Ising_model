@@ -10,7 +10,7 @@ program main
   
   implicit none
   !real(dp), dimension(10) ::  beta_array
-  real(dp) :: array(200)
+  real(dp) :: array(1000)
   
 
 
@@ -31,7 +31,7 @@ program main
  ! call measure_sweeps(x, beta, L, N_measurements, N_skip)
   !beta_array(0) :
 
-  call linspace(from=0.01_dp, to=1.0_dp, array=array)
+  call linspace(from=0.001_dp, to=1.0_dp, array=array)
   !print*, array
   call multiple_beta(x, array, L, N_measurements, N_skip)
 

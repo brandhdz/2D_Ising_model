@@ -146,7 +146,7 @@ module dynamics
        
        if ( mod(i, N_skip) == 0 ) then
           call  magnetization(lattice,  L, m_n)
-          M_array(i/10) = m_n
+          M_array(i/N_skip) = m_n
           write(unit, *) m_n
        end if
        
@@ -192,7 +192,7 @@ module dynamics
 
     do index = 1, size(beta_array)
       
-      call measure_sweeps(lattice, beta_array(index), L, N_measurements, N_skip , mean_mag)
+      call measure_sweeps(lattice, beta_array(index), L, N_measurements, N_skip  , mean_mag)
 
       write(unit, *) beta_array(index), mean_mag
     end do
