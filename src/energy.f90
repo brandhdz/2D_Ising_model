@@ -51,4 +51,21 @@ contains
     
   end subroutine delta_hamiltonian
   
+  subroutine mean_energy(h_array, h_mean)
+  integer(i4),intent(in), dimension(:) :: h_array
+  integer(i4), intent(out) :: h_mean
+   !integer(i4) :: i
+  
+   !h_mean = 0
+  
+   !do i = 1, size(h_array)
+   	!h_mean = h_mean + h_array(i)
+   !end do
+
+   h_mean = SUM(h_array)
+   
+   h_mean = h_mean/size(h_array)
+   
+  end subroutine mean_energy
+  
 end module energy

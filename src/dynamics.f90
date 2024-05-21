@@ -5,6 +5,7 @@ module dynamics
     use init
     use local_update_algorithms
     use energy
+    use observables
     
     implicit none
   
@@ -103,7 +104,7 @@ module dynamics
     integer(i4) :: i, unit, h, h_mean
     integer(i4), intent(in) :: N_measurements, N_skip, L
     real(dp), intent(in) :: beta
-    real(dp) :: mean_mag, m_n
+    real(dp) :: mean_mag, m_n, chi
     integer(i4), dimension(N_measurements) :: h_array
     real(dp), dimension(N_measurements) :: M_array
     
@@ -129,62 +130,12 @@ module dynamics
     
     call mean_energy(h_array,  h_mean) 
     call mean_magnetization(M_array,  mean_mag)   
-    write(unit, *) beta, h_mean, mean_mag
+    call susceptibility(m_array, chi)
+    write(unit, *) beta, h_mean, mean_mag, chi
 
     close(unit)
     
   end subroutine measure_sweeps
-
-   subroutine magnetization(lattice,  L, M)
-    integer(i4) :: i, j, s
-    integer(i4), intent(inout), dimension(:,:) :: lattice
-    integer(i4), intent(in) :: L
-    real(dp), intent(inout) :: M
-
-    s = 0
-    do i = 1, size(lattice(1, :))
-      do j = 1, size(lattice(1, :))
-         s = lattice(i, j) + s
-        end do
-  end do
-
-    M =real(s)/real(L)**2
-   ! print*,M
-    
-  end subroutine magnetization
-  
-  subroutine mean_energy(h_array, h_mean)
-  
-    integer(i4),intent(in), dimension(:) :: h_array
-    integer(i4), intent(out) :: h_mean
-    integer(i4) :: i
-  
-    h_mean = 0
-  
-    do i = 1, size(h_array)
-      h_mean = h_mean + h_array(i)
-   end do
-
-   h_mean = h_mean/size(h_array)
-   
-  end subroutine mean_energy
-  
-  subroutine mean_magnetization(m_array, mean_mag)
-  
-    real(dp),intent(in), dimension(:) :: m_array
-    real(dp), intent(out) :: mean_mag
- 
-    integer(i4) :: index, L
-    L = size(m_array)
-    mean_mag = 0.0_dp
-  
-    do index = 1, L
-      mean_mag=  mean_mag + (m_array(index))
-    end do
-    mean_mag = abs(mean_mag/L)
-    !val = sum(x_array**2)/size(x_array)
-    
-  end subroutine mean_magnetization
 
  ! subroutine multiple_beta(lattice, beta_array, L, N_measurements, N_skip)
 

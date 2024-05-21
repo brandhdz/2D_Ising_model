@@ -9,7 +9,7 @@ contains
     real(dp), intent(in) :: r
     character(25) :: r_string
 
-    write(r_string, "(f17.5)") r
+    write(r_string, "(f7.5)") r
 
   end function real2str
   
