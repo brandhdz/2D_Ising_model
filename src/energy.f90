@@ -61,18 +61,21 @@ contains
 
   subroutine heat_capacity(h_array, beta, h_c)
 
-    integer(i4) :: i, h2
+    integer(i4) :: i
+    real(dp) :: h2
     integer(i4),intent(in), dimension(:) :: h_array
+    real(dp), dimension(size(h_array)) :: hr_array
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: h_c
 
     h2 = 0
     
     do i = 1, size(h_array)
-       h2 = h2 + h_array(i)**2
+       h2 = h2 + real(h_array(i))**2
+       hr_array(i) = real(h_array(i))
     end do
    
-    h_c = (h2/size(h_array) - (SUM(h_array)/size(h_array))**2)*beta**2
+    h_c = (h2/size(hr_array) - (SUM(hr_array)/size(hr_array))**2)*beta**2
     
   end subroutine heat_capacity
   
