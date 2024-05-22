@@ -99,7 +99,7 @@ module dynamics
     
   end subroutine thermalization
   
-  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip)
+  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, route)
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit, h, h_mean
     integer(i4), intent(in) :: N_measurements, N_skip, L
@@ -107,11 +107,11 @@ module dynamics
     real(dp), intent(in) :: beta
     real(dp) :: mean_mag, m_n, h_c, chi
     real(dp), dimension(N_measurements) :: M_array
-    character(100), intent(in) :: start
-
-    call setInitialConfig(lattice, start)
+    character(100), intent(in) :: start, route
     
-    open(newunit = unit, file = "./data/beta="//trim(real2str(beta))//"_measure.dat")
+    call setInitialConfig(lattice, start)
+
+    open(newunit = unit, file = trim(route)//"/beta="//trim(real2str(beta))//"_measure.dat")
     
     do i = 1, N_measurements*N_skip
        
@@ -129,7 +129,7 @@ module dynamics
 
     close(unit)
 
-    open(newunit = unit, file = "./data/mean_values.dat", action = "write", position = "append")
+    open(newunit = unit, file = trim(route)//"/mean_values.dat", action = "write", position = "append")
     
     call mean_energy(h_array,  h_mean)
     call heat_capacity(h_array, beta, h_c)

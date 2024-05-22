@@ -12,5 +12,15 @@ contains
     write(r_string, "(f7.5)") r
 
   end function real2str
+
+  function int2str(i) result(k)
+    integer, intent(in) :: i
+    character(20) :: k
+
+    write(k, *) i
+    k = adjustl(k)
+
+  end function int2str
+  
   
 end module str_conv
