@@ -99,14 +99,17 @@ module dynamics
     
   end subroutine thermalization
   
-  subroutine measure_sweeps(lattice, beta, L, N_measurements, N_skip)
+  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip)
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit, h, h_mean
     integer(i4), intent(in) :: N_measurements, N_skip, L
+    integer(i4), dimension(N_measurements) :: h_array
     real(dp), intent(in) :: beta
     real(dp) :: mean_mag, m_n, h_c, chi
-    integer(i4), dimension(N_measurements) :: h_array
     real(dp), dimension(N_measurements) :: M_array
+    character(100), intent(in) :: start
+
+    call setInitialConfig(lattice, start)
     
     open(newunit = unit, file = "./data/beta="//trim(real2str(beta))//"_measure.dat")
     
@@ -137,23 +140,5 @@ module dynamics
     close(unit)
     
   end subroutine measure_sweeps
-
- ! subroutine multiple_beta(lattice, beta_array, L, N_measurements, N_skip)
-
-   ! integer(i4), intent(inout), dimension(:,:) :: lattice
-   ! integer(i4) :: index, unit
-   ! integer(i4), intent(in) :: N_measurements, N_skip, L
-   ! real(dp), dimension(:) ::  beta_array
-   ! real(dp) :: mean_mag, m_n
-    
-   ! open(newunit = unit, file = "./data/beta_measures.dat")
-
-    !do index = 1, size(beta_array)
-     ! call measure_sweeps(lattice, beta_array(index), L, N_measurements, N_skip , mean_mag)
-     ! write(unit, *) beta_array(index), mean_mag
-    !end do
-  
-    !close(unit)
-  !end subroutine multiple_beta
 
   end module dynamics

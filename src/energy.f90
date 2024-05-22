@@ -64,18 +64,16 @@ contains
     integer(i4) :: i
     real(dp) :: h2
     integer(i4),intent(in), dimension(:) :: h_array
-    real(dp), dimension(size(h_array)) :: hr_array
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: h_c
 
-    h2 = 0
+    h2 = 0_dp
     
     do i = 1, size(h_array)
-       h2 = h2 + real(h_array(i))**2
-       hr_array(i) = real(h_array(i))
+       h2 = h2 + DBLE(h_array(i))**2
     end do
    
-    h_c = (h2/size(hr_array) - (SUM(hr_array)/size(hr_array))**2)*beta**2
+    h_c = (h2/size(h_array) - ((SUM(DBLE(h_array)))/size(h_array))**2)*beta**2
     
   end subroutine heat_capacity
   
