@@ -1,11 +1,12 @@
 module parameters
 
     use iso_fortran_env, only: dp => real64, i4 => int32
+    use str_conv
     implicit none
   
     integer(i4) :: i, L, N_thermalization, N_measurements, N_skip, N_beta
     real(dp) :: a, b, dbeta
-    character(100) :: input_file, start, algorithm
+    character(100) :: input_file, start, algorithm, route
   
     namelist /input_parameters/  L, start, algorithm, N_thermalization, N_measurements, N_skip, a, b, N_beta
   
@@ -29,7 +30,9 @@ module parameters
       write(*, nml = input_parameters)
 
       dbeta = (b - a)/(N_beta -1)
-  
+
+      route = "./data/ALGORITHM="//trim(algorithm)//",L="//trim(int2str(L))
+      
     end subroutine read_input
       
   end module parameters

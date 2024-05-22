@@ -5,7 +5,7 @@ DATA = data
 TARGET = executable.exe
 FFLAGS = -Wall -Wextra -fcheck=all -std=f2008 -O0
 
-SOURCE_FILES = parameters.f90 lattice.f90 init.f90 periodic_boundary_conditions.f90 energy.f90 observables.f90 local_update_algorithms.f90 str_conv.f90 dynamics.f90 main.f90
+SOURCE_FILES = str_conv.f90 parameters.f90 lattice.f90 init.f90 periodic_boundary_conditions.f90 energy.f90 observables.f90 local_update_algorithms.f90 dynamics.f90 main.f90
 OBJECTS = $(patsubst %, $(BIN)/%, $(SOURCE_FILES:.f90=.o))
 
 $(BIN)/$(TARGET): $(OBJECTS)
@@ -18,7 +18,7 @@ $(BIN)/%.o: $(SRC)/%.f90
 
 clean: 
 	rm $(BIN)/*
-	rm $(DATA)/*
+	rm -r $(DATA)/*
 run:
 	$(BIN)/$(TARGET) <<< parameters.dat
 

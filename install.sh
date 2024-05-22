@@ -1,7 +1,6 @@
 #! /bin/bash
 
 BIN=./bin
-SRC=./src
 DATA=./data
 FIG=./figures
 
@@ -16,7 +15,7 @@ fi
 if [ -d $DATA ]
 then
     echo $DATA "directory already exist"
-    rm $DATA/*
+    rm -r $DATA/*
 else
     mkdir $DATA
 fi
