@@ -31,7 +31,7 @@ module parameters
 
       dbeta = (b - a)/(N_beta -1)
 
-      route = "./data/ALGORITHM="//trim(algorithm)//",L="//trim(int2str(L))
+      route = "./data/START="//trim(start)//",ALGORITHM="//trim(algorithm)//",L="//trim(int2str(L))
       
     end subroutine read_input
       
