@@ -8,7 +8,7 @@ import os
 import re
 
 """
-This program is used for plot the results from the ODE Fortran Solver
+This program is used for plot the results from the Ising Model Fortran Program
 
 """
 
