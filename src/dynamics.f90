@@ -65,11 +65,11 @@ module dynamics
 
   subroutine thermalization(start, x, N_thermalization, L, beta)
 
-    integer(i4) :: i, unit, h
+    integer(i4) :: i, unit
     integer(i4), intent(in) :: N_thermalization, L
     integer(i4), intent(inout), dimension(:,:) :: x
     character(100), intent(in) :: start
-    real(dp) :: beta,  M
+    real(dp) :: h, beta,  M
     
     call setInitialConfig(x,  start )
     call magnetization(x,  L, M)
@@ -101,11 +101,11 @@ module dynamics
   
   subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, route)
     integer(i4), intent(inout), dimension(:,:) :: lattice
-    integer(i4) :: i, unit, h, h_mean
+    integer(i4) :: i, unit
     integer(i4), intent(in) :: N_measurements, N_skip, L
-    integer(i4), dimension(N_measurements) :: h_array
+    real(dp), dimension(N_measurements) :: h_array
     real(dp), intent(in) :: beta
-    real(dp) :: mean_mag, m_n, h_c, chi
+    real(dp) :: h, h_mean, mean_mag, m_n, h_c, chi
     real(dp), dimension(N_measurements) :: M_array
     character(100), intent(in) :: start, route
     

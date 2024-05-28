@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
+import scienceplots
 mpl.rcParams.update(mpl.rcParamsDefault)
 plt.style.use(['science','grid'])
 

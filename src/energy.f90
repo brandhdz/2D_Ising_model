@@ -21,7 +21,7 @@ contains
   subroutine hamiltonian(x, L, h)
     integer(i4), intent(in), dimension(:,:) :: x
     integer(i4), intent(in) :: L
-    integer(i4), intent(inout) :: h
+    real(dp), intent(inout) :: h
     integer(i4) :: m, n, s
     
     s = 0
@@ -32,7 +32,7 @@ contains
        end do
     end do
     
-    h = -s
+    h = -DBLE(s)/L**2
   
   end subroutine hamiltonian
 
@@ -52,8 +52,8 @@ contains
   end subroutine delta_hamiltonian
   
   subroutine mean_energy(h_array, h_mean)
-  integer(i4),intent(in), dimension(:) :: h_array
-  integer(i4), intent(out) :: h_mean
+  real(dp),intent(in), dimension(:) :: h_array
+  real(dp), intent(out) :: h_mean
 
    h_mean = SUM(h_array)/size(h_array)
    
@@ -63,17 +63,17 @@ contains
 
     integer(i4) :: i
     real(dp) :: h2
-    integer(i4),intent(in), dimension(:) :: h_array
+    real(dp),intent(in), dimension(:) :: h_array
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: h_c
 
     h2 = 0_dp
     
     do i = 1, size(h_array)
-       h2 = h2 + DBLE(h_array(i))**2
+       h2 = h2 + h_array(i)**2
     end do
    
-    h_c = (h2/size(h_array) - ((SUM(DBLE(h_array)))/size(h_array))**2)*beta**2
+    h_c = (h2/size(h_array) - (SUM(h_array)/size(h_array))**2)*beta**2
     
   end subroutine heat_capacity
   
