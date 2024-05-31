@@ -1,11 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
+import scienceplots
 mpl.rcParams.update(mpl.rcParamsDefault)
 plt.style.use(['science','grid'])
 
 import os
 import re
+
 
 """
 This program is used for plot the results from the Ising Model Fortran Program

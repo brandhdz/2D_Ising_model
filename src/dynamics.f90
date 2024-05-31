@@ -108,10 +108,14 @@ module dynamics
     real(dp) :: mean_mag, m_n, h_c, chi
     real(dp), dimension(N_measurements) :: M_array
     character(100), intent(in) :: start, route
+    open(unit = 101, file = trim(route)//"/snapshot_beta="//trim(real2str(beta))//".dat")
     
     call setInitialConfig(lattice, start)
 
-    open(newunit = unit, file = trim(route)//"/beta="//trim(real2str(beta))//"_measure.dat")
+
+    open(newunit = unit, file = trim(route)//"/beta="//trim(real2str(beta))//"_measure.dat", action = "write", position = "append")
+    write(101, *) 0, lattice
+    
     
     do i = 1, N_measurements*N_skip
        
@@ -123,9 +127,11 @@ module dynamics
           h_array(i/N_skip) = h
           M_array(i/N_skip) = m_n
           write(unit, *) h, m_n
+          write(101, *) i, lattice
        end if
        
     end do
+    close(101)
 
     close(unit)
 
@@ -140,5 +146,6 @@ module dynamics
     close(unit)
     
   end subroutine measure_sweeps
+
 
   end module dynamics
