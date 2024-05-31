@@ -5,10 +5,10 @@ This repository implements a numerical simulation for the Ising model in 2D adop
 The energy is given by
 
 $$
-H=-\frac{J}{2}\sum_{<i,j>}\sigma_{i}sigma_{j}
+H=-\frac{J}{2}\sum_{<i,j>}\sigma_{i}\sigma_{j}
 $$ 
 
-where $\sum_{<i,j>}\$ is the sum over all the neighbor particles, $\sigma_{i}$ is the spin of the i-th particle which only can take +1 and -1 values and $J$ is an interaction constant  (we are assuming $\J = 1$). 
+where $\sum_{<i,j>}\$ is the sum over all the neighbor particles, $\sigma_{i}$ is the spin of the i-th particle which only can take +1 and -1 values and $J$ is an interaction constant  (we are assuming $J = 1$). 
 
 ### Lattice
 
@@ -81,7 +81,7 @@ To run the program execute the following line in the terminal:
 ```
 make run
 ```
-To clean the data directory the program executes the following line in the terminal:
+To clean the data directory executes the following line in the terminal:
 ```
 make clean
 ```
