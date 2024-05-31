@@ -17,7 +17,7 @@ $(BIN)/%.o: $(SRC)/%.f90
 .PHONY: clean run
 
 clean: 
-	rm $(BIN)/*
+#	rm $(BIN)/*
 	rm -r $(DATA)/*
 run:
 	$(BIN)/$(TARGET) <<< parameters.dat
