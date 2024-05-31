@@ -8,7 +8,7 @@ import os
 import re
 
 """
-This program is used for plot the results from the Ising Model Fortran Program
+This program is used for plot the results from the 2D Ising Model Fortran Program
 
 """
 
