@@ -22,11 +22,14 @@ module parameters
       read(unit, nml = input_parameters)
       close(unit)
   
-      if( L <= 0 ) error stop "L must be > 0"
-      !if( N_thermalization <= 0 ) error stop "N_thermalization must be > 0"
-      !if( N_measurements <= 0 ) error stop "N_measurements must be > 0"
-      !if( N_skip <= 0 ) error stop "N_skip must be > 0"
-      !if(algorithm /= "Glauber" .or. algorithm /= "Metropolis") error stop "Metropolis (default) or Glauber are the only options"
+      if ( L <= 0 ) error stop "L must be > 0"
+      if ( start /= "hot" .EQV. start /= "cold" ) error stop "Please select hot or cold"
+      if( algorithm /= "Metropolis" .EQV. algorithm /= "Glauber" ) error stop "Please select Metropolis or Glauber"
+      if ( N_thermalization <= 0 ) error stop "N_thermalization must be > 0"
+      if ( N_measurements <= 0 ) error stop "N_measurements must be > 0"
+      if ( N_skip <= 0 ) error stop "N_skip must be > 0"
+      if ( a > b ) error stop " a must be < b"
+      if ( N_beta <= 0 ) error stop "N_beta must be > 0"
       write(*, nml = input_parameters)
 
       dbeta = (b - a)/(N_beta -1)
