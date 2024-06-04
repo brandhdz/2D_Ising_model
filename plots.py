@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
+#from cycler import cycler
 import scienceplots
+
 mpl.rcParams.update(mpl.rcParamsDefault)
 plt.style.use(['science','grid'])
 
@@ -9,7 +11,7 @@ import os
 import re
 
 """
-This program is used for plot the results from the ODE Fortran Solver
+This program is used for plot the results from the 2D Ising Model Fortran Program
 
 """
 
@@ -43,11 +45,13 @@ print(lattice_dict_data)
 
 # Import the data
 
-fig, axes = plt.subplots(nrows=2, ncols=2, constrained_layout = True, figsize=(3.3*2 , 5))
 
 
-def plot_measures(data, lattice,  fig, axes):
+def plot_measures(data, lattice,  fig, axes, all = True):
+  """
+    This function makes a four subplot figure.
 
+    """
 
     ax1 = axes[0, 0]
     ax3 = axes[1, 0]
@@ -59,6 +63,8 @@ def plot_measures(data, lattice,  fig, axes):
     heat_capacity = data[:,2]
     magnetization = data[:,3]
     sucep = data[:,4]
+    lattice_label = lattice
+    lattice = "$"+lattice+"$"
 
     ax1.plot(beta, energy,"*", label = lattice, markersize = 0.7)
     ax1.set_xlabel('$\\beta$')
@@ -80,17 +86,85 @@ def plot_measures(data, lattice,  fig, axes):
     ax4.set_ylabel('$ \\chi$')
     ax4.legend(fontsize=7)
     
-    fig.savefig('figures/Ising_Model_2D_Observables.pdf')
+    fig.savefig('figures/Ising_Model_2D_StackedObservables.pdf')
+    
+def plot_measures_individual(data, lattice,  fig, axes, markerselect, observable = None ):
+    """
+    This function plots each individual observable given the data of a single lattice size.
+    The function is the used in vectorized form to obtain stacked observables.
+
+    """
+    beta = data[:,0]
+    energy = data[:,1]
+    heat_capacity = data[:,2]
+    magnetization = data[:,3]
+    sucep = data[:,4]
+
+    lattice = "$"+lattice+"$"
+    if observable == 'Energy':
+        
+        axes.plot(beta, energy, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
+        axes.set_xlabel('$\\beta$')
+        axes.set_ylabel('$\\langle \\vert E \\vert\\rangle$')
+        axes.legend(fontsize=7)
+    elif observable == 'HeatCapacity':
+        axes.plot(beta,heat_capacity, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
+        axes.set_xlabel('$\\beta$')
+        axes.set_ylabel('$C$')
+        axes.legend(fontsize=7)
+    elif observable == 'Magnetization':
+        axes.plot(beta , magnetization, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
+        axes.set_xlabel('$\\beta$')
+        axes.set_ylabel('$\\langle \\vert M \\vert\\rangle$')
+        axes.legend(fontsize=7)
+    elif observable == 'Suceptibility':
+        axes.plot(beta , sucep,marker = markerselect,  ls = "",  label = lattice, markersize = 0.7)
+        axes.set_xlabel('$\\beta$')
+        axes.set_ylabel('$ \\chi$')
+        axes.legend(fontsize=7)
+
+    else: 
+        raise TypeError("Observable not allowed")
+    
+    
+    
+    return fig, axes
 
 
+fig, axes = plt.subplots(nrows=2, ncols=2, constrained_layout = True, figsize=(3.3*2 , 5))
+
+fig1, ax1 = plt.subplots()
+fig2, ax2 = plt.subplots()
+fig3, ax3 = plt.subplots()
+fig4, ax4 = plt.subplots()
+
+
+labels =" "
+
+markercycle = plt.cycler(marker=['o', '+', 'x', '*', '.', 'X'])
+marker =['o', '+', 'x', '*', '.', 'X']
+colorcycle = plt.rcParams["axes.prop_cycle"]
+
+
+print(colorcycle * markercycle)
+#ax2.set_prop_cycle(markercycle) 
+i = 0
 for L, pathFile  in lattice_dict_data.items():
     data = np.loadtxt(pathFile, delimiter = None)
-    plot_measures(data, L, fig, axes)
-
     
+    labels = labels + L
+    plot_measures(data, L, fig, axes)
+    plot_measures_individual(data, L,  fig1, ax1, marker[i], observable = "Energy")
+    plot_measures_individual(data, L,  fig2, ax2, marker[i],  observable = "HeatCapacity")
+    plot_measures_individual(data, L,  fig3, ax3, marker[i], observable = "Magnetization")
+    plot_measures_individual(data, L,  fig4, ax4,  marker[i],  observable = "Suceptibility")
+    i = i + 1
+   
 
-
-
+fig1.savefig('figures/ObsEnergy_for'+labels+'.pdf')
+fig2.savefig('figures/ObsHeatCapacity_for'+labels+'.pdf')
+fig3.savefig('figures/ObsMagnetization_for'+labels+'.pdf')
+fig4.savefig('figures/ObsHeatSuceptibility_for'+labels+'.pdf')
 
 
 
