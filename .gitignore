@@ -1,8 +1,10 @@
 #dir
 bin/
 data/
+figures/
 
 #files
+/parameters.dat
 .DS_Store
 *.o
 *.mod
