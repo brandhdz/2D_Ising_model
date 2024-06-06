@@ -1,11 +1,13 @@
 #dir
 bin/
 data/
+figures/
 
 #files
 .DS_Store
 *.o
 *.mod
+*.pdf
 \#*#
 *~
 

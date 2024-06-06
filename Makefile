@@ -7,7 +7,7 @@ TARGET = executable.exe
 #FFLAGS = -Wall -Wextra -fcheck=all -std=f2008 -O0
 OP = -O3
 
-SOURCE_FILES = str_conv.f90 g_plots.f90 statistics.f90 parameters.f90 lattice.f90 init.f90 periodic_boundary_conditions.f90 energy.f90 observables.f90 local_update_algorithms.f90 dynamics.f90 main.f90
+SOURCE_FILES = str_conv.f90 statistics.f90 parameters.f90 lattice.f90 init.f90 periodic_boundary_conditions.f90 energy.f90 observables.f90 local_update_algorithms.f90 dynamics.f90 main.f90
 OBJECTS = $(patsubst %, $(BIN)/%, $(SOURCE_FILES:.f90=.o))
 
 $(BIN)/$(TARGET): $(OBJECTS)
@@ -23,8 +23,5 @@ clean:
 run:
 	echo "parameters.dat" | $(BIN)/$(TARGET)
 
-pyplot:
+plot:
 	python plots.py
-
-gplot:
-	gnuplot ./figures/energy.plt
