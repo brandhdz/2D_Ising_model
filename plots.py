@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
 #from cycler import cycler
-import scienceplots
 
 mpl.rcParams.update(mpl.rcParamsDefault)
 plt.style.use(['science','grid'])
@@ -48,10 +47,7 @@ print(lattice_dict_data)
 
 
 def plot_measures(data, lattice,  fig, axes, all = True):
-  """
-    This function makes a four subplot figure.
 
-    """
 
     ax1 = axes[0, 0]
     ax3 = axes[1, 0]
@@ -165,9 +161,3 @@ fig1.savefig('figures/ObsEnergy_for'+labels+'.pdf')
 fig2.savefig('figures/ObsHeatCapacity_for'+labels+'.pdf')
 fig3.savefig('figures/ObsMagnetization_for'+labels+'.pdf')
 fig4.savefig('figures/ObsHeatSuceptibility_for'+labels+'.pdf')
-
-
-
-
-
-#
