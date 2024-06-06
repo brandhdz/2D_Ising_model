@@ -6,6 +6,7 @@ module dynamics
     use local_update_algorithms
     use energy
     use observables
+    use statistics
     
     implicit none
   
@@ -134,8 +135,8 @@ module dynamics
     call mean_energy(h_array,  h_mean)
     call heat_capacity(h_array, beta, h_c)
     call mean_magnetization(M_array,  mean_mag)   
-    call susceptibility(m_array, L, chi)
-    write(unit, *) beta, h_mean, h_c,  mean_mag, chi
+    call susceptibility(M_array, L, chi)
+    write(unit, *) beta, h_mean, standard_error(h_array), h_c, mean_mag, standard_error(M_array), chi
 
     close(unit)
     
