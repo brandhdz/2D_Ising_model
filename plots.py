@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
 #from cycler import cycler
-#import scienceplots ""If necessary uncomment 
+#""If necessary uncomment 
+# import scienceplots
 mpl.rcParams.update(mpl.rcParamsDefault)
 plt.style.use(['science','grid'])
 
