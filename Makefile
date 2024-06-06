@@ -2,7 +2,7 @@ FC = gfortran
 SRC = src
 BIN = bin
 DATA = data
-LIB = lib
+LIB = library
 TARGET = executable.exe
 #FFLAGS = -Wall -Wextra -fcheck=all -std=f2008 -O0
 OP = -O3
