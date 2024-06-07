@@ -14,7 +14,7 @@ program main
   call execute_command_line( "mkdir "//trim(route) )
   
   do i = 1, N_beta
-     call measure_sweeps(start, x, dbeta*(i - 1), L, N_measurements, N_skip, route)
+     call measure_sweeps(start, x, dbeta*(i - 1)+a, L, N_measurements, N_skip, route)
   end do
 
   !call obs_plots(L, route)
