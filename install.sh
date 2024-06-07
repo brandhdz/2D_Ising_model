@@ -29,3 +29,4 @@ else
 fi
 
 make 
+pip install SciencePlots
