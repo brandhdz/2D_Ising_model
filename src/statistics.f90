@@ -14,6 +14,15 @@ contains
 
   end function mean
 
+  function mean_sqr(x) result(m2)
+
+    real(dp), dimension(:), intent(in) :: x
+    real(dp) :: m2
+
+    m2 = SUM(x**2)/SIZE(x)
+
+  end function mean_sqr
+
   function standard_deviation(x) result(sd)
 
     integer(i4) :: i
@@ -41,5 +50,17 @@ contains
     se = sd/SQRT(DBLE(SIZE(x)))
 
   end function standard_error
-  
+
+  function sta_ind_error(x) result(sie)
+
+    real(dp), dimension(:), intent(in) :: x
+    real(dp) :: m, m2, sie
+
+    m = mean(x)
+    m2 = mean_sqr(x)
+    
+    sie = (m2- m**2)/(SIZE(x)-1) 
+
+  end function sta_ind_error
+
 end module statistics

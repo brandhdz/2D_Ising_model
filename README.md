@@ -5,20 +5,38 @@ This repository implements a numerical simulation for the Ising model in 2D adop
 The energy is given by
 
 $$
-H=-\frac{J}{2}\sum_{<i,j>}\sigma_{i}\sigma_{j}
+H=-\frac{J}{2}\sum_{\langle i,j\rangle}\sigma_{i}\sigma_{j}
 $$ 
 
-where $\sum_{<i,j>}\$ is the sum over all the neighbor particles, $\sigma_{i}$ is the spin of the i-th particle which only can take +1 and -1 values and $J$ is an interaction constant  (we are assuming $J = 1$). 
+where $\sum_{\langle i,j\rangle}\$ is the sum over all the neighbor particles, $\sigma_{i}$ is the spin of the $i$-th particle which only can take $+1$ and $-1$ values and $J$ is an interaction constant  (we are assuming $J = 1$). 
 
 ### Lattice
 
-We will consider a square lattice $L\times L$ with the spins positions given by $s_{i,j}$. The Hamiltonian in a configuration of spins $S={s_{i,j}}$ is then
+We will consider a square lattice $L\times L = \Lambda$ with the spins positions given by $s_{i,j}$. The Hamiltonian in a configuration of spins $[S]={s_{i,j}}$ is then
 
 $$
-H(S)=-\frac{J}{2}\sum_{i,j\in L \times L}s_{i,j}(s_{i+1,j}+s_{i-1,j}+s_{i,j+1}+s_{i,j-1})
+H([S])=-\frac{J}{2}\sum_{i,j\in \Lambda}s_{i,j}(s_{i+1,j}+s_{i,j+1})
 $$
 
 where we are assuming periodic boundary conditions $s_{i+L,j}=s_{i,j},s_{i,j+L}=s_{i,j}$.
+
+In addition we can get the magnetization as
+
+$$
+M([S]) = \frac{1}{L}\sum_{i,j\in \Lambda}s_{i,j},
+$$
+
+and using the results to obtain the heat capacity as
+
+\begin{equation}
+    C_{E} = \frac{\langle E^{2} \rangle - \langle E \rangle ^{2}}{\beta^2}
+\end{equation}
+
+where $\beta=\frac{1}{\kappa_{B}T}$ (also in this program we are assuming $\kappa_{B}=1$), and the susceptibility as
+
+\begin{equation}
+    \chi = L^{2}*(\langle M^{2} \rangle - \langle M \rangle ^{2}).
+\end{equation}
 
 <br/>
 
@@ -66,14 +84,14 @@ Now you can modify the ``parameters.dat`` file to enter different settings for t
 ```
 &input_parameters
 L = 30,
-start = "cold",
-algorithm = "Metropolis",
+start = "cold" ("hot"),
+algorithm = "Metropolis" ("Glauber"),
 N_thermalization = 1000,
 N_measurements= 1000,
 N_skip = 10,
-a = 0,
-b = 1,
-N_beta = 100,
+a = 0 (start range of beta values),
+b = 1 (end range of beta values),
+N_beta = 100 (number of beta values),
 /
 ```
 
@@ -81,7 +99,7 @@ To run the program execute the following line in the terminal:
 ```
 make run
 ```
-To clean the data directory executes the following line in the terminal:
+To clean the data directory execute the following line in the terminal:
 ```
 make clean
 ```
