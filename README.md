@@ -28,15 +28,19 @@ $$
 
 and using the results to obtain the heat capacity as
 
+$$
 \begin{equation}
     C_{E} = \frac{\langle E^{2} \rangle - \langle E \rangle ^{2}}{\beta^2}
 \end{equation}
+$$
 
 where $\beta=\frac{1}{\kappa_{B}T}$ (also in this program we are assuming $\kappa_{B}=1$), and the susceptibility as
 
+$$
 \begin{equation}
     \chi = L^{2}*(\langle M^{2} \rangle - \langle M \rangle ^{2}).
 \end{equation}
+$$
 
 <br/>
 
