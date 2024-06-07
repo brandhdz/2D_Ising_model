@@ -107,7 +107,7 @@ def plot_measures_individual(data, lattice,  fig, axes, markerselect, observable
     if observable == 'Energy':
         
         axes.plot(beta, energy, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
-        axes.errorbar(beta, energy, yerr = energy_error, ls='none', elinewidth = 0.5)
+        axes.errorbar(beta, energy, yerr = energy_error, ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
         axes.set_xlabel('$\\beta$')
         axes.set_ylabel('$\\langle \\vert E \\vert\\rangle$')
         axes.legend(fontsize=7)
@@ -118,6 +118,7 @@ def plot_measures_individual(data, lattice,  fig, axes, markerselect, observable
         axes.legend(fontsize=7)
     elif observable == 'Magnetization':
         axes.plot(beta , magnetization, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
+        axes.errorbar(beta, magnetization, yerr = mag_erro, ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
         axes.set_xlabel('$\\beta$')
         axes.set_ylabel('$\\langle \\vert M \\vert\\rangle$')
         axes.legend(fontsize=7)
