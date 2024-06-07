@@ -47,7 +47,7 @@ print(lattice_dict_data)
 
 
 
-def plot_measures(data, lattice,  fig, axes, all = True):
+def plot_measures(data, lattice,  fig, axes, markerselect, all = True):
 
 
     ax1 = axes[0, 0]
@@ -57,28 +57,32 @@ def plot_measures(data, lattice,  fig, axes, all = True):
 
     beta = data[:,0]
     energy = data[:,1]
-    heat_capacity = data[:,2]
-    magnetization = data[:,3]
-    sucep = data[:,4]
+    energy_error = data[:,2]
+    heat_capacity = data[:,3]
+    magnetization = data[:,4]
+    mag_erro = data[:,5]
+    sucep = data[:,6]
     lattice_label = lattice
     lattice = "$"+lattice+"$"
 
-    ax1.plot(beta, energy,"*", label = lattice, markersize = 0.7)
+    ax1.plot(beta, energy, marker = markerselect, label = lattice,ls = "", markersize = 0.7)
+    ax1.errorbar(beta, energy, yerr = energy_error,ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
     ax1.set_xlabel('$\\beta$')
     ax1.set_ylabel('$\\langle \\vert E \\vert\\rangle$')
     ax1.legend(fontsize=7)
     
-    ax2.plot(beta,heat_capacity,"*", label = lattice, markersize = 0.7)
+    ax2.plot(beta,heat_capacity, marker = markerselect, ls = "",label = lattice, markersize = 0.7)
     ax2.set_xlabel('$\\beta$')
     ax2.set_ylabel('$C$')
     ax2.legend(fontsize=7)
     
-    ax3.plot(beta , magnetization,"*", label = lattice, markersize = 0.7)
+    ax3.plot(beta , magnetization, marker = markerselect,ls = "", label = lattice, markersize = 0.7)
+    ax3.errorbar(beta, magnetization, yerr = mag_erro,ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
     ax3.set_xlabel('$\\beta$')
     ax3.set_ylabel('$\\langle \\vert M \\vert\\rangle$')
     ax3.legend(fontsize=7)
     
-    ax4.plot(beta , sucep, "*", label = lattice, markersize = 0.7)
+    ax4.plot(beta , sucep, marker = markerselect, ls = "",label = lattice, markersize = 0.7)
     ax4.set_xlabel('$\\beta$')
     ax4.set_ylabel('$ \\chi$')
     ax4.legend(fontsize=7)
@@ -93,14 +97,17 @@ def plot_measures_individual(data, lattice,  fig, axes, markerselect, observable
     """
     beta = data[:,0]
     energy = data[:,1]
-    heat_capacity = data[:,2]
-    magnetization = data[:,3]
-    sucep = data[:,4]
+    energy_error = data[:,2]
+    heat_capacity = data[:,3]
+    magnetization = data[:,4]
+    mag_erro = data[:,5]
+    sucep = data[:,6]
 
     lattice = "$"+lattice+"$"
     if observable == 'Energy':
         
         axes.plot(beta, energy, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
+        axes.errorbar(beta, energy, yerr = energy_error, ls='none', elinewidth = 0.5)
         axes.set_xlabel('$\\beta$')
         axes.set_ylabel('$\\langle \\vert E \\vert\\rangle$')
         axes.legend(fontsize=7)
@@ -150,7 +157,7 @@ for L, pathFile  in lattice_dict_data.items():
     data = np.loadtxt(pathFile, delimiter = None)
     
     labels = labels + L
-    plot_measures(data, L, fig, axes)
+    plot_measures(data, L, fig, axes, marker[i])
     plot_measures_individual(data, L,  fig1, ax1, marker[i], observable = "Energy")
     plot_measures_individual(data, L,  fig2, ax2, marker[i],  observable = "HeatCapacity")
     plot_measures_individual(data, L,  fig3, ax3, marker[i], observable = "Magnetization")
