@@ -2,6 +2,7 @@ FC = gfortran
 SRC = src
 BIN = bin
 DATA = data
+FIGURES = figures
 LIB = library
 TARGET = executable.exe
 #FFLAGS = -Wall -Wextra -fcheck=all -std=f2008 -O0
@@ -20,6 +21,7 @@ $(BIN)/%.o: $(SRC)/%.f90
 
 clean: 
 	rm -r $(DATA)/*
+	rm -r $(FIGURES)/*
 run:
 	echo "parameters.dat" | $(BIN)/$(TARGET)
 
