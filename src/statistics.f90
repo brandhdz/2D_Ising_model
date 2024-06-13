@@ -14,53 +14,34 @@ contains
 
   end function mean
 
-  function mean_sqr(x) result(m2)
+  function std_dev(x) result(sd)
 
     real(dp), dimension(:), intent(in) :: x
-    real(dp) :: m2
+    real(dp) :: sd
 
-    m2 = SUM(x**2)/SIZE(x)
+    sd = SQRT((mean(x**2) - mean(x)**2)/(SIZE(x)-1))
 
-  end function mean_sqr
+  end function std_dev
 
-  function standard_deviation(x) result(sd)
-
-    integer(i4) :: i
-    real(dp), dimension(:), intent(in) :: x
-    real(dp) :: s, m, sd
-
-    s = 0.0_dp
-    m = mean(x)
-    
-    do i = 1, size(x)
-       s = s + (x(i) - m)**2
-    end do
-
-    sd = SQRT(s/(SIZE(x)-1))
-
-  end function standard_deviation
-
-  function standard_error(x) result(se)
+  function std_err(x) result(se)
 
     real(dp), dimension(:), intent(in) :: x
-    real(dp) :: sd, se
+    real(dp) :: se
 
-    sd = standard_deviation(x)
+    se = std_dev(x)/SQRT(REAL(SIZE(x)))
 
-    se = sd/SQRT(DBLE(SIZE(x)))
+  end function std_err
 
-  end function standard_error
-
-  function sta_ind_error(x) result(sie)
+  function std_err_com(x) result(sec)
 
     real(dp), dimension(:), intent(in) :: x
-    real(dp) :: m, m2, sie
+    real(dp) :: se, se_sqr, sec
 
-    m = mean(x)
-    m2 = mean_sqr(x)
-    
-    sie = (m2- m**2)/(SIZE(x)-1) 
+    se = std_err(x)
+    se_sqr = std_err(x**2)
 
-  end function sta_ind_error
+    sec = SQRT(se_sqr**2 + se**4)
 
+  end function std_err_com
+  
 end module statistics

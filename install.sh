@@ -28,5 +28,4 @@ else
     mkdir $FIG
 fi
 
-make 
-pip install SciencePlots
+make

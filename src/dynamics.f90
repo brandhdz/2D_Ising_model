@@ -104,10 +104,10 @@ module dynamics
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
     integer(i4), intent(in) :: N_measurements, N_skip, L
-    real(dp), dimension(N_measurements) :: h_array
+    real(dp), dimension(N_measurements) :: h_a
     real(dp), intent(in) :: beta
-    real(dp) :: h, h_mean, mean_mag, m_n, h_c, chi
-    real(dp), dimension(N_measurements) :: M_array
+    real(dp) :: h, m_n, h_c, chi
+    real(dp), dimension(N_measurements) :: M_a
     character(100), intent(in) :: start, route
     
     call setInitialConfig(lattice, start)
@@ -121,8 +121,8 @@ module dynamics
        if ( mod(i, N_skip) == 0 ) then
           call hamiltonian(lattice, L, h)
           call magnetization(lattice,  L, m_n)
-          h_array(i/N_skip) = h
-          M_array(i/N_skip) = m_n
+          h_a(i/N_skip) = h
+          M_a(i/N_skip) = m_n
           write(unit, *) h, m_n
        end if
        
@@ -132,11 +132,10 @@ module dynamics
 
     open(newunit = unit, file = trim(route)//"/mean_values.dat", action = "write", position = "append")
     
-    call mean_energy(h_array,  h_mean)
-    call heat_capacity(h_array, beta, h_c)
-    call mean_magnetization(M_array,  mean_mag)   
-    call susceptibility(M_array, L, chi)
-    write(unit, *) beta, h_mean, standard_error(h_array), h_c, mean_mag, standard_error(M_array), chi
+    call heat_capacity(h_a, beta, h_c)   
+    call susceptibility(M_a, beta, chi)
+    
+    write(unit, *) beta,mean(h_a),std_err(h_a),h_c,std_err_com(h_a)*beta**2,ABS(mean(M_a)),std_err(M_a),chi,std_err_com(M_a)*beta 
 
     close(unit)
     
