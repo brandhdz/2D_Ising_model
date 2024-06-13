@@ -23,5 +23,8 @@ clean:
 run:
 	echo "parameters.dat" | $(BIN)/$(TARGET)
 
+SP_install:
+	pip install SciencePlots
+
 plot:
 	python plots.py

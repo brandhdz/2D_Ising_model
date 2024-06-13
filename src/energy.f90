@@ -2,6 +2,8 @@ module energy
 
   use iso_fortran_env, only : dp => real64, i4 => int32 
   use periodic_boundary_conditions
+  use statistics
+  
   implicit none
 
 contains
@@ -50,30 +52,15 @@ contains
     dh = 2*x(m,n)*(up_ngb+rg_ngb+dw_ngb+lf_ngb)
     
   end subroutine delta_hamiltonian
-  
-  subroutine mean_energy(h_array, h_mean)
-  real(dp),intent(in), dimension(:) :: h_array
-  real(dp), intent(out) :: h_mean
-
-   h_mean = SUM(h_array)/size(h_array)
-   
- end subroutine mean_energy
 
   subroutine heat_capacity(h_array, beta, h_c)
 
     integer(i4) :: i
-    real(dp) :: h2
     real(dp),intent(in), dimension(:) :: h_array
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: h_c
-
-    h2 = 0_dp
-    
-    do i = 1, size(h_array)
-       h2 = h2 + h_array(i)**2
-    end do
    
-    h_c = (h2/size(h_array) - (SUM(h_array)/size(h_array))**2)*beta**2
+    h_c = (mean(h_array**2) - mean(h_array)**2)*beta**2
     
   end subroutine heat_capacity
   
