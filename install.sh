@@ -23,7 +23,8 @@ fi
 if [ -d $FIG ]
 then
     echo $FIG "directory already exist"
-    rm -r $FIG/*
+    rm -r $FIG/*.pdf
+    rm -r $FIG/*.png
 else
     mkdir $FIG
 fi

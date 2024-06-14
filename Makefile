@@ -21,7 +21,8 @@ $(BIN)/%.o: $(SRC)/%.f90
 
 clean: 
 	rm -r $(DATA)/*
-	rm -r $(FIGURES)/*
+	rm -r $(FIGURES)/*.pdf
+	rm -r $(FIGURES)/*.png
 run:
 	echo "parameters.dat" | $(BIN)/$(TARGET)
 
