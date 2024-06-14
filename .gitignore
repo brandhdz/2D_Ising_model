@@ -1,7 +1,7 @@
 #dir
 bin/
 data/
-figures/*
+#figures/*
 
 #files
 .DS_Store

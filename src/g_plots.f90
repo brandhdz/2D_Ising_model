@@ -14,19 +14,19 @@ contains
     integer(i4) :: unit
 
     open(newunit = unit, file = "./figures/energy.plt", status = "old", action = "write", position = "append" )
-    write(unit, *) "pl '."//trim(route)//"/mean_values.dat' u 1:2:3 w yerrorbars t 'L="//trim(int2str(L))//"'"
+    write(unit, *)"'."//trim(route)//"/mean_values.dat' u 1:2:3 w yerrorbars t 'L="//trim(int2str(L))//"' , \"
     close(unit)
 
     open(newunit = unit, file = "./figures/heat_capacity.plt", status = "old", action = "write", position = "append" )
-    write(unit, *) "pl '."//trim(route)//"/mean_values.dat' u 1:4 t 'L="//trim(int2str(L))//"'"
+    write(unit, *)"'."//trim(route)//"/mean_values.dat' u 1:4:5 w yerrorbars t 'L="//trim(int2str(L))//"' , \"
     close(unit)
 
     open(newunit = unit, file = "./figures/magnetization.plt", status = "old", action = "write", position = "append" )
-    write(unit, *) "pl '."//trim(route)//"/mean_values.dat' u 1:5:6 w yerrorbars t 'L="//trim(int2str(L))//"'"
+    write(unit, *)"'."//trim(route)//"/mean_values.dat' u 1:6:7 w yerrorbars t 'L="//trim(int2str(L))//"' , \"
     close(unit)
 
     open(newunit = unit, file = "./figures/susceptibility.plt", status = "old", action = "write", position = "append" )
-    write(unit, *) "pl '."//trim(route)//"/mean_values.dat' u 1:7 t 'L="//trim(int2str(L))//"'"
+    write(unit, *)"'."//trim(route)//"/mean_values.dat' u 1:8:9 w yerrorbars t 'L="//trim(int2str(L))//"' , \"
     close(unit)
     
   end subroutine obs_plots
