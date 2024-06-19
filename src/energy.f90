@@ -53,14 +53,14 @@ contains
     
   end subroutine delta_hamiltonian
 
-  subroutine heat_capacity(h_array, beta, h_c)
+  subroutine heat_capacity(h_array, beta, h_c, L)
 
-    integer(i4) :: i
+    integer(i4), intent(in) :: L
     real(dp),intent(in), dimension(:) :: h_array
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: h_c
    
-    h_c = (mean(h_array**2) - mean(h_array)**2)*beta**2
+    h_c = (mean(h_array**2) - mean(h_array)**2)*beta**2/L**2
     
   end subroutine heat_capacity
   

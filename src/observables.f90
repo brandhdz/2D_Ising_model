@@ -20,19 +20,19 @@ contains
         end do
   end do
 
-    M =real(s)/real(L)**2
+    M = ABS(real(s)/real(L)**2)
    ! print*,M
     
   end subroutine magnetization
 
-  subroutine susceptibility(m_array, beta, chi)
+  subroutine susceptibility(m_array, beta, chi, L)
 
-    integer(i4) :: i
+    integer(i4), intent(in) :: L 
     real(dp), intent(in), dimension(:) :: m_array
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: chi
    
-    chi = (mean(m_array**2) - mean(m_array)**2)*beta
+    chi = L**2*(mean(m_array**2) - mean(m_array)**2)*beta
     
   end subroutine susceptibility
 

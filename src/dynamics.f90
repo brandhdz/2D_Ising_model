@@ -132,10 +132,10 @@ module dynamics
 
     open(newunit = unit, file = trim(route)//"/mean_values.dat", action = "write", position = "append")
     
-    call heat_capacity(h_a, beta, h_c)   
-    call susceptibility(M_a, beta, chi)
+    call heat_capacity(h_a, beta, h_c, L)   
+    call susceptibility(M_a, beta, chi, L)
     
-    write(unit, *) beta,mean(h_a),std_err(h_a),h_c,std_err_com(h_a)*beta**2,ABS(mean(M_a)),std_err(M_a),chi,std_err_com(M_a)*beta 
+    write(unit, *) beta,mean(h_a),std_err(h_a),h_c,std_err_com(h_a)*beta**2,mean(M_a),std_err(M_a),chi,std_err_com(M_a)*beta 
 
     close(unit)
     

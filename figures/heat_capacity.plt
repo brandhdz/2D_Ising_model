@@ -5,3 +5,5 @@ set title "Heat Capacity"
 set xlabel "β"
 set ylabel "C_ϵ"
 pl \
+ '../data/START=cold,ALGORITHM=Metropolis,L=30/mean_values.dat' u 1:4:5 w yerrorbars t 'L=30' , \
+ '../data/START=cold,ALGORITHM=Metropolis,L=120/mean_values.dat' u 1:4:5 w yerrorbars t 'L=120' , \
