@@ -19,7 +19,7 @@ $(BIN)/%.o: $(SRC)/%.f90
 
 .PHONY: clean run
 
-clean: 
+clean:
 	rm -r $(DATA)/*
 	rm -r $(FIGURES)/*
 run:
