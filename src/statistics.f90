@@ -43,5 +43,24 @@ contains
     sec = SQRT(se_sqr**2 + se**4)
 
   end function std_err_com
-  
+
+  subroutine jknife_err(x, M)
+    real(dp), dimension(:), intent(in) :: x
+    real(dp) :: delta
+    integer(i4) :: M, i, j !Segments
+    real(dp), allocatable :: array1(:) !<O>
+    !−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+    div = size(x)/M
+    allocate(array1(1: M))
+    array1 = 0.0d0
+    do i = 1, size(x)
+      do j = 1, M
+        if (i/div /= j ) then
+          array1(j) = array1(j) + x(i)
+        end if
+      end do
+    end do
+  end subroutine jknife_err
+
+
 end module statistics

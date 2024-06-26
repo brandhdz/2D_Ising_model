@@ -4,11 +4,11 @@ module parameters
   use str_conv
   implicit none
 
-  integer(i4) :: i, L, N_thermalization, N_measurements, N_skip, N_beta
+  integer(i4) :: i, L, N_thermalization, N_measurements, N_skip, N_beta, M
   real(dp) :: a, b, dbeta
   character(100) :: input_file, start, algorithm, route
 
-  namelist /input_parameters/  L, start, algorithm, N_thermalization, N_measurements, N_skip, a, b, N_beta
+  namelist /input_parameters/  L, start, algorithm, N_thermalization, N_measurements, N_skip, a, b, N_beta, M
 
 contains
 
@@ -30,6 +30,7 @@ contains
     if ( N_skip <= 0 ) error stop "N_skip must be > 0"
     if ( a > b ) error stop " a must be < b"
     if ( N_beta <= 0 ) error stop "N_beta must be > 0"
+    if ( mod(N_measurements, M) == 0 ) error stop "All the segments have to be the same length"
     write(*, nml = input_parameters)
 
     dbeta = (b - a)/(N_beta -1)
