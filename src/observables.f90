@@ -20,7 +20,7 @@ contains
         end do
   end do
 
-    M = ABS(real(s)/real(L)**2)
+    M = real(s)/real(L)**2
    ! print*,M
     
   end subroutine magnetization
