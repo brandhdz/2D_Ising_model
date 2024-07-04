@@ -1,11 +1,11 @@
 &input_parameters
 L = 100,
-start = "hot",
+start = "cold",
 algorithm = "Metropolis",
 N_thermalization = 100,
 N_measurements= 10000,
 N_skip = 1,
-a = 0.5,
+a = 0,
 b = 1,
-N_beta = 3,
+N_beta = 5,
 /

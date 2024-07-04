@@ -20,3 +20,5 @@ pl \
  '../data/START=cold,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:4:5 w yerrorbars t 'L=100' , \
  '../data/START=cold,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:4:5 w yerrorbars t 'L=100' , \
  '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:4:5 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:4:5 w yerrorbars t 'L=100' , \
+ '../data/START=cold,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:4:5 w yerrorbars t 'L=100' , \
