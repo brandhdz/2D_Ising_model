@@ -67,3 +67,7 @@ pl \ '../data/START=cold,ALGORITHM=Metropolis,L=30/mean_values.dat' u 1:8:9 w ye
  '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:8:9 w yerrorbars t 'L=100' , \
  '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:8:9 w yerrorbars t 'L=100' , \
  '../data/START=cold,ALGORITHM=Metropolis,L=10/mean_values.dat' u 1:8:9 w yerrorbars t 'L=10' , \
+ '../data/START=cold,ALGORITHM=Metropolis,L=10/mean_values.dat' u 1:8:9 w yerrorbars t 'L=10' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:8:9 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:8:9 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:8:9 w yerrorbars t 'L=100' , \

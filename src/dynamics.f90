@@ -64,36 +64,24 @@ module dynamics
     
   end subroutine drawrandomnumber
 
-  subroutine thermalization(start, x, N_thermalization, L, beta)
-
+  subroutine thermalization(start, lattice, beta, L, N_thermalization, route)
+   
+    integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
     integer(i4), intent(in) :: N_thermalization, L
-    integer(i4), intent(inout), dimension(:,:) :: x
-    character(100), intent(in) :: start
-    real(dp) :: h, beta,  M
-    
-    call setInitialConfig(x,  start )
-    call magnetization(x,  L, M)
-    print*, M
+    real(dp), intent(in) :: beta
+    real(dp) :: h, m_n
+    character(100), intent(in) :: start, route
 
-    !open(newunit = unit, file = "./data/seq_update_Mag.dat")
-    open(newunit = unit, file = "./data/random_update_Mag.dat")
-    !open(newunit = unit, file = "./data/random_update_Mag_L18.dat")
+    call setInitialConfig(lattice, start)
 
-    call hamiltonian(x, L, h)
-    
-    write(unit, *) M
+    open(newunit = unit, file = trim(route)//"/Thermalization/beta="//trim(real2str(beta))//"_measures.dat")
     
     do i = 1, N_thermalization
-       
-       !call seq_sweep(x, beta)
-       call random_sweep(x, beta, L)
-       call magnetization(x,  L, M)
-      
-       !call hamiltonian(x, L, h)
-       !print*,h
-       write(unit, *) M
-       
+       call random_sweep(lattice, beta, L)
+       call hamiltonian(lattice, L, h)
+       call magnetization(lattice,  L, m_n)
+       write(unit, *) h, m_n
     end do
 
     close(unit)
@@ -101,6 +89,7 @@ module dynamics
   end subroutine thermalization
   
   subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, route)
+
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
     integer(i4), intent(in) :: N_measurements, N_skip, L
@@ -109,8 +98,6 @@ module dynamics
     real(dp) :: h, m_n, h_c, chi
     real(dp), dimension(N_measurements) :: M_a
     character(100), intent(in) :: start, route
-    
-    call setInitialConfig(lattice, start)
 
     open(newunit = unit, file = trim(route)//"/Measures/beta="//trim(real2str(beta))//"_measures.dat")
     
