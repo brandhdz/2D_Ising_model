@@ -112,7 +112,7 @@ module dynamics
     
     call setInitialConfig(lattice, start)
 
-    open(newunit = unit, file = trim(route)//"/beta="//trim(real2str(beta))//"_measure.dat")
+    open(newunit = unit, file = trim(route)//"/Measures/beta="//trim(real2str(beta))//"_measures.dat")
     
     do i = 1, N_measurements*N_skip
        
@@ -138,6 +138,9 @@ module dynamics
     write(unit, *) beta,mean(h_a),std_err(h_a),h_c,std_err_com(h_a)*beta**2,mean(M_a),std_err(M_a),chi,std_err_com(M_a)*beta 
 
     close(unit)
+
+    call t_d_ac(h_a, beta, route, "energy")
+    call t_d_ac(M_a, beta, route, "magnetization")
     
   end subroutine measure_sweeps
 
