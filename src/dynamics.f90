@@ -88,11 +88,11 @@ module dynamics
     
   end subroutine thermalization
   
-  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, route)
+  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, N_block, route)
 
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
-    integer(i4), intent(in) :: N_measurements, N_skip, L
+    integer(i4), intent(in) :: L, N_measurements, N_skip, N_block
     real(dp), dimension(N_measurements) :: h_a
     real(dp), intent(in) :: beta
     real(dp) :: h, m_n, h_c, chi
@@ -126,8 +126,11 @@ module dynamics
 
     close(unit)
 
-    call t_d_ac(h_a, beta, route, "energy")
-    call t_d_ac(M_a, beta, route, "magnetization")
+    !call t_d_ac(h_a, beta, route, "energy")
+    !call t_d_ac(M_a, beta, route, "magnetization")
+
+    call block_err(h_a, N_block, beta, L, route, "energy" )
+    call block_err(M_a, N_block, beta, L, route, "magnetization" )
     
   end subroutine measure_sweeps
 

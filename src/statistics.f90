@@ -79,5 +79,97 @@ contains
     deallocate(chi)
     
   end subroutine t_d_ac
+
+  subroutine block_err(x, N_block, beta, L, route, obs)
+
+    real(dp), intent(in), dimension(:) :: x
+    integer(i4), intent(in) :: N_block, L
+    real(dp), intent(in) :: beta
+    character(*), intent(in) :: route, obs
+    real(dp), allocatable, dimension(:) :: b, m, mh 
+    integer(i4) :: i, j, unit, elms
+
+    elms = size(x)/N_block
+
+    allocate(b(elms))
+    allocate(m(N_block))
+    allocate(mh(N_block))
+    
+    open(newunit = unit, file = trim(route)//"/Mean_values/"//trim(obs)//"_block.dat", action = "write", position = "append")
+
+    if ( obs == "energy" ) then
+       
+    do j = 1, N_block
+       do i = 1, elms
+          b(i) = x(i + elms*(j-1))
+       end do
+       m(j) = mean(b)
+       mh(j) = beta**2*(mean(b**2)-mean(b)**2)*L**2
+    end do
+
+    write(unit, *) beta, mean(m), std_err(m), mean(mh), std_err(mh)
+
+ else if ( obs == "magnetization" ) then
+
+    do j = 1, N_block
+       do i = 1, elms
+          b(i) = x(i + elms*(j-1))
+       end do
+       m(j) = mean(b)
+       mh(j) = beta*(mean(b**2)-mean(b)**2)*L**2
+    end do
+
+    write(unit, *) beta, mean(m), std_err(m), mean(mh), std_err(mh)
+
+ else
+    error stop "Only energy or magnetization options are available"
+
+ end if
+ 
+    close(unit)
+
+    deallocate(b)
+    deallocate(m)
+    deallocate(mh)
+    
+  end subroutine block_err
+
+  !   subroutine jk_err(x, N_block, beta, route)
+
+  !   real(dp), intent(in), dimension(:) :: x
+  !   integer(i4), intent(in) :: N_block
+  !   real(dp), intent(in) :: beta
+  !   character(100), intent(in) :: route
+  !   real(dp), allocatable, dimension(:) :: b
+  !   real(dp) :: a, m, djk
+  !   integer(i4) :: i, j, unit, elms
+
+  !   elms = size(x)/N_block
+
+  !   a = 0d0
+
+  !   allocate(b(N_block))
+    
+  !   open(newunit=unit, file=trim(route)//"/Mean_values/beta="//trim(real2str(beta))//"_"//trim(obs)//"_energy_jk.dat", action="write",position="append" )
+    
+  !   do j = 1, N_block
+  !      do i = 1, elms
+  !         a = a + x(i + elms*(j-1))
+  !      end do
+  !      b(j) = a/N_block
+  !      a = 0d0
+  !   end do
+
+  !   m = mean(x)
+
+  !   djk = SQRT(DBLE(N_block-1)/N_block*SUM(b - m))
+    
+  !   write(unit,*) mean(x), mean(b), djk
+
+  !   close(unit)
+    
+  !   deallocate(b)
+    
+  ! end subroutine jk_err
   
 end module statistics

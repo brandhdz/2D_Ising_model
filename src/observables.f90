@@ -20,7 +20,7 @@ contains
         end do
   end do
 
-    M = ABS(real(s)/real(L)**2)
+    M = ABS(DBLE(s)/L**2)
    ! print*,M
     
   end subroutine magnetization
@@ -32,7 +32,7 @@ contains
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: chi
    
-    chi = L**2*(mean(m_array**2) - mean(m_array)**2)*beta
+    chi = beta*(mean(m_array**2) - mean(m_array)**2)*L**2
     
   end subroutine susceptibility
 

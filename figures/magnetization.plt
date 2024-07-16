@@ -56,3 +56,13 @@ pl \
  '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
  '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
  '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \
+ '../data/START=hot,ALGORITHM=Metropolis,L=100/mean_values.dat' u 1:6:7 w yerrorbars t 'L=100' , \

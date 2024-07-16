@@ -15,10 +15,11 @@ program main
   call execute_command_line( "mkdir "//trim(route)//"/Thermalization" )
   call execute_command_line( "mkdir "//trim(route)//"/Measures" )
   call execute_command_line( "mkdir "//trim(route)//"/Autocorrelations" )
+  call execute_command_line( "mkdir "//trim(route)//"/Mean_values" )
   
   do i = 1, N_beta
      call thermalization(start, x, dbeta*(i - 1) + a, L, N_thermalization, route)
-     call measure_sweeps(start, x, dbeta*(i - 1) + a, L, N_measurements, N_skip, route)
+     call measure_sweeps(start, x, dbeta*(i - 1) + a, L, N_measurements, N_skip, N_block, route)
   end do
 
   call obs_plots(L, route)
