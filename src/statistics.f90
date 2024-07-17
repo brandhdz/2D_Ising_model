@@ -15,12 +15,21 @@ contains
 
   end function mean
 
+  function var(x) result(v)
+
+    real(dp), dimension(:), intent(in) :: x
+    real(dp) :: v
+
+    v = mean(x**2) - mean(x)**2
+
+  end function var
+  
   function std_dev(x) result(sd)
 
     real(dp), dimension(:), intent(in) :: x
     real(dp) :: sd
 
-    sd = SQRT((mean(x**2) - mean(x)**2)/(SIZE(x)-1))
+    sd = SQRT(var(x)/(SIZE(x)-1))
 
   end function std_dev
 
@@ -104,7 +113,7 @@ contains
           b(i) = x(i + elms*(j-1))
        end do
        m(j) = mean(b)
-       mh(j) = beta**2*(mean(b**2)-mean(b)**2)*L**2
+       mh(j) = beta**2*var(b)*L**2
     end do
 
     write(unit, *) beta, mean(m), std_err(m), mean(mh), std_err(mh)
@@ -116,7 +125,7 @@ contains
           b(i) = x(i + elms*(j-1))
        end do
        m(j) = mean(b)
-       mh(j) = beta*(mean(b**2)-mean(b)**2)*L**2
+       mh(j) = beta*var(b)*L**2
     end do
 
     write(unit, *) beta, mean(m), std_err(m), mean(mh), std_err(mh)

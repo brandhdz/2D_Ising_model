@@ -22,6 +22,6 @@ program main
      call measure_sweeps(start, x, dbeta*(i - 1) + a, L, N_measurements, N_skip, N_block, route)
   end do
 
-  call obs_plots(L, route)
+  !call obs_plots(L, route)
   
 end program main

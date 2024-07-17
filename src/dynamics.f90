@@ -39,7 +39,7 @@ module dynamics
       do i = 1, size(x(1, :))
         do j = 1, size(x(1, :))
             !call random_number(r)
-          call drawrandomnumber(L, m ,n )
+          call drawrandomnumber(L, m ,n)
            xnew = -x(m,n)
            call delta_hamiltonian(x, m, n, dh)
            !call glauber(x(i,j), xnew, dh, beta)
@@ -49,9 +49,9 @@ module dynamics
      
       end subroutine random_sweep
 
-  subroutine drawrandomnumber(L, i ,j )
+  subroutine drawrandomnumber(L, i ,j)
     integer(i4), intent(in) :: L
-    integer(i4) , intent(out):: i,j
+    integer(i4) , intent(out):: i, j
 
     real(dp) :: r, p
     call random_number(r)
@@ -126,8 +126,8 @@ module dynamics
 
     close(unit)
 
-    !call t_d_ac(h_a, beta, route, "energy")
-    !call t_d_ac(M_a, beta, route, "magnetization")
+    call t_d_ac(h_a, beta, route, "energy")
+    call t_d_ac(M_a, beta, route, "magnetization")
 
     call block_err(h_a, N_block, beta, L, route, "energy" )
     call block_err(M_a, N_block, beta, L, route, "magnetization" )

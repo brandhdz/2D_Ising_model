@@ -32,7 +32,7 @@ contains
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: chi
    
-    chi = beta*(mean(m_array**2) - mean(m_array)**2)*L**2
+    chi = beta*var(m_array)*L**2
     
   end subroutine susceptibility
 
