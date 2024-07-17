@@ -4,11 +4,11 @@ module parameters
     use str_conv
     implicit none
   
-    integer(i4) :: i, L, N_thermalization, N_measurements, N_skip, N_block, N_beta
+    integer(i4) :: i, L, N_thermalization, N_measurements, N_skip, N_block, N_beta, N_sample, N_tries
     real(dp) :: a, b, dbeta
     character(100) :: input_file, start, algorithm, route
   
-    namelist /input_parameters/  L, start, algorithm, N_thermalization, N_measurements, N_skip, N_block, a, b, N_beta
+    namelist /input_parameters/  L, start, algorithm, N_thermalization, N_measurements, N_skip, N_block, N_sample, N_tries, a, b, N_beta
   
   contains
   
@@ -28,8 +28,12 @@ module parameters
       if ( N_thermalization <= 0 ) error stop "N_thermalization must be > 0"
       if ( N_measurements <= 0 ) error stop "N_measurements must be > 0"
       if ( N_skip <= 0 ) error stop "N_skip must be > 0"
-      if ( N_block <= 1 ) error stop "N_skip must be > 0"
+      if ( N_block <= 1 ) error stop "N_block must be > 1"
+      if ( N_block > N_measurements ) error stop "N_block must be <= N_measurements"
       if ( mod(N_measurements, N_block) /= 0 ) error stop "All blocks must have the same number of elements"
+      if ( N_sample <= 1 ) error stop "N_sample must be > 1"
+      if ( N_sample > N_measurements ) error stop "Samples must be < N_measurements"
+      if ( N_tries <= 1 ) error stop "N_tries must be > 1"
       if ( a > b ) error stop " a must be < b"
       if ( N_beta <= 1 ) error stop "N_beta must be > 1"
 
