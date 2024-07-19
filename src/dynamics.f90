@@ -99,8 +99,8 @@ module dynamics
     real(dp), dimension(N_measurements) :: M_a
     character(100), intent(in) :: start, route
 
-    open(newunit = unit, file = trim(route)//"/Measures/beta="//trim(real2str(beta))//"_measures.dat")
-    
+    open(newunit = unit, file = trim(route)//"/Measures/beta="//trim(real2str(beta))//"_measures.dat")   
+
     do i = 1, N_measurements*N_skip
        
        call random_sweep(lattice, beta, L)
@@ -117,14 +117,17 @@ module dynamics
 
     close(unit)
 
-    open(newunit = unit, file = trim(route)//"/mean_values.dat", action = "write", position = "append")
+    open(unit = 1, file = trim(route)//"/Mean_values/energy_standard.dat", action = "write", position = "append")
+    open(unit = 2, file = trim(route)//"/Mean_values/magnetization_standard.dat", action = "write", position = "append")
     
     call heat_capacity(h_a, beta, h_c, L)   
     call susceptibility(M_a, beta, chi, L)
     
-    write(unit, *) beta,mean(h_a),std_err(h_a),h_c,std_err_com(h_a)*beta**2,mean(M_a),std_err(M_a),chi,std_err_com(M_a)*beta 
+    write(1, *) beta, mean(h_a), std_err(h_a), h_c, std_err_com(h_a)
+    write(2, *) beta, mean(M_a), std_err(M_a), chi, std_err_com(M_a)
 
-    close(unit)
+    close(1)
+    close(2)
 
     !call t_d_ac(h_a, beta, route, "energy")
     !call t_d_ac(M_a, beta, route, "magnetization")
@@ -134,6 +137,9 @@ module dynamics
 
     call bootstrap_err(h_a, N_sample, N_tries, beta, L, route, "energy")
     call bootstrap_err(M_a, N_sample, N_tries, beta, L, route, "magnetization")
+
+    call jk_err(h_a, N_block, beta, L, route, "energy" )
+    call jk_err(M_a, N_block, beta, L, route, "magnetization" )
     
   end subroutine measure_sweeps
 

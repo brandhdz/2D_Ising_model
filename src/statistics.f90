@@ -98,7 +98,7 @@ contains
     real(dp), allocatable, dimension(:) :: b, m, mh 
     integer(i4) :: i, j, unit, elms
 
-    elms = size(x)/N_block
+    elms = SIZE(x)/N_block
 
     allocate(b(elms))
     allocate(m(N_block))
@@ -131,6 +131,7 @@ contains
     write(unit, *) beta, mean(m), std_err(m), mean(mh), std_err(mh)
 
  else
+    
     error stop "Only energy or magnetization options are available"
 
  end if
@@ -150,9 +151,11 @@ contains
     real(dp), intent(in) :: beta
     character(*), intent(in) :: route, obs
     real(dp), allocatable, dimension(:) :: s, m, ms 
-    integer(i4) :: i, j, unit
+    integer(i4) :: i, j, unit, N
     real(dp) :: r
 
+    N = SIZE(x)
+    
     allocate(s(N_sample))
     allocate(m(N_tries))
     allocate(ms(N_tries))
@@ -164,28 +167,29 @@ contains
     do j = 1, N_tries
        do i = 1, N_sample
           call random_number(r)
-          s(i) = x(FLOOR(L*r) + 1)
+          s(i) = x(FLOOR(N*r) + 1)
        end do
        m(j) = mean(s)
        ms(j) = beta**2*var(s)*L**2
     end do
 
-    write(unit, *) beta, mean(m), std_err(m), mean(ms), var(ms)
+    write(unit, *) beta, mean(m), std_err(m), mean(ms), SQRT(var(ms))
 
  else if ( obs == "magnetization" ) then
 
     do j = 1, N_tries
        do i = 1, N_sample
           call random_number(r)
-          s(i) = x(FLOOR(L*r) + 1)
+          s(i) = x(FLOOR(N*r) + 1)
        end do
        m(j) = mean(s)
        ms(j) = beta*var(s)*L**2
     end do
 
-    write(unit, *) beta, mean(m), std_err(m), mean(ms), var(ms)
+    write(unit, *) beta, mean(m), std_err(m), mean(ms), SQRT(var(ms))
 
  else
+    
     error stop "Only energy or magnetization options are available"
 
  end if
@@ -198,42 +202,67 @@ contains
     
   end subroutine bootstrap_err
   
-  !   subroutine jk_err(x, N_block, beta, route)
+  subroutine jk_err(x, N_block, beta, L, route, obs)
 
-  !   real(dp), intent(in), dimension(:) :: x
-  !   integer(i4), intent(in) :: N_block
-  !   real(dp), intent(in) :: beta
-  !   character(100), intent(in) :: route
-  !   real(dp), allocatable, dimension(:) :: b
-  !   real(dp) :: a, m, djk
-  !   integer(i4) :: i, j, unit, elms
+  real(dp), intent(in), dimension(:) :: x
+  integer(i4), intent(in) :: N_block, L
+  real(dp), intent(in) :: beta
+  character(*), intent(in) :: route, obs
+  real(dp), allocatable, dimension(:) :: b, m, mj
+  integer(i4) :: i, j, unit, quo, elms, N
 
-  !   elms = size(x)/N_block
+  N = SIZE(x)
+  quo = N/N_block
+  elms = N - quo
 
-  !   a = 0d0
-
-  !   allocate(b(N_block))
+  allocate(m(N_block))
+  allocate(mj(N_block))
     
-  !   open(newunit=unit, file=trim(route)//"/Mean_values/beta="//trim(real2str(beta))//"_"//trim(obs)//"_energy_jk.dat", action="write",position="append" )
+  open(newunit = unit, file = trim(route)//"/Mean_values/"//trim(obs)//"_jk.dat", action="write",position="append" )
+  
+  if ( obs == "energy" ) then
+     
+     do j = 1, N_block
+        allocate(b(N))
+        do i = 1, N
+           if ( (i-1)/quo + 1 /= j ) then
+              b(i) = x(i)
+           end if
+        end do
+        m(j) = SUM(b)/elms
+        mj(j) = beta**2*(SUM(b**2)/elms - (SUM(b)/elms)**2)*L**2
+        deallocate(b)
+     end do
     
-  !   do j = 1, N_block
-  !      do i = 1, elms
-  !         a = a + x(i + elms*(j-1))
-  !      end do
-  !      b(j) = a/N_block
-  !      a = 0d0
-  !   end do
+    write(unit, *) beta, mean(m), std_err(m), mean(mj), SQRT(N_block*var(mj))
 
-  !   m = mean(x)
+ else if ( obs == "magnetization" ) then
 
-  !   djk = SQRT(DBLE(N_block-1)/N_block*SUM(b - m))
-    
-  !   write(unit,*) mean(x), mean(b), djk
+    do j = 1, N_block
+       allocate(b(N))
+       do i = 1, N
+          if ( (i-1)/quo + 1 /= j ) then
+             b(i) = x(i)
+          end if
+       end do
+       m(j) = SUM(b)/elms
+       mj(j) = beta*(SUM(b**2)/elms - (SUM(b)/elms)**2)*L**2
+       deallocate(b)
+    end do
+     
+    write(unit, *) beta, mean(m), std_err(m), mean(mj), SQRT(N_block*var(mj))
 
-  !   close(unit)
+ else
     
-  !   deallocate(b)
+    error stop "Only energy or magnetization options are available"
+
+ end if
+ 
+ close(unit)
+
+   deallocate(m)
+   deallocate(mj)
     
-  ! end subroutine jk_err
+  end subroutine jk_err
   
 end module statistics
