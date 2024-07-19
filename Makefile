@@ -24,6 +24,7 @@ clean:
 	rm -r $(DATA)/*
 	rm -r $(FIGURES)/*.pdf
 	rm -r $(FIGURES)/*.png
+	rm -r $(SRC)/*.mod
 run:
 	echo "parameters.dat" | $(BIN)/$(TARGET)
 

@@ -59,9 +59,11 @@ def plot_measures(data, lattice,  fig, axes, markerselect, all = True):
     energy = data[:,1]
     energy_error = data[:,2]
     heat_capacity = data[:,3]
-    magnetization = data[:,4]
-    mag_erro = data[:,5]
-    sucep = data[:,6]
+    heat_capacity_error = data[:,4]
+    magnetization = data[:,5]
+    mag_erro = data[:,6]
+    sucep = data[:,7]
+    sucep_error =  data[:,8]
     lattice_label = lattice
     lattice = "$"+lattice+"$"
 
@@ -72,6 +74,7 @@ def plot_measures(data, lattice,  fig, axes, markerselect, all = True):
     ax1.legend(fontsize=7)
     
     ax2.plot(beta,heat_capacity, marker = markerselect, ls = "",label = lattice, markersize = 0.7)
+    ax2.errorbar(beta, heat_capacity, yerr = heat_capacity_error, ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
     ax2.set_xlabel('$\\beta$')
     ax2.set_ylabel('$C$')
     ax2.legend(fontsize=7)
@@ -83,6 +86,8 @@ def plot_measures(data, lattice,  fig, axes, markerselect, all = True):
     ax3.legend(fontsize=7)
     
     ax4.plot(beta , sucep, marker = markerselect, ls = "",label = lattice, markersize = 0.7)
+    ax4.errorbar(beta, sucep, yerr = sucep_error, ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
+    ax4.set_xlabel('$\\beta$')
     ax4.set_xlabel('$\\beta$')
     ax4.set_ylabel('$ \\chi$')
     ax4.legend(fontsize=7)
@@ -99,9 +104,11 @@ def plot_measures_individual(data, lattice,  fig, axes, markerselect, observable
     energy = data[:,1]
     energy_error = data[:,2]
     heat_capacity = data[:,3]
-    magnetization = data[:,4]
-    mag_erro = data[:,5]
-    sucep = data[:,6]
+    heat_capacity_error = data[:,4]
+    magnetization = data[:,5]
+    mag_erro = data[:,6]
+    sucep = data[:,7]
+    sucep_error =  data[:,8]
 
     lattice = "$"+lattice+"$"
     if observable == 'Energy':
@@ -112,7 +119,9 @@ def plot_measures_individual(data, lattice,  fig, axes, markerselect, observable
         axes.set_ylabel('$\\langle \\vert E \\vert\\rangle$')
         axes.legend(fontsize=7)
     elif observable == 'HeatCapacity':
-        axes.plot(beta,heat_capacity, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
+        axes.plot(beta,heat_capacity, label = lattice)
+        #axes.plot(beta,heat_capacity, marker = markerselect, ls = "", label = lattice, markersize = 0.7)
+        #axes.errorbar(beta, heat_capacity, yerr = heat_capacity_error, ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
         axes.set_xlabel('$\\beta$')
         axes.set_ylabel('$C$')
         axes.legend(fontsize=7)
@@ -123,7 +132,9 @@ def plot_measures_individual(data, lattice,  fig, axes, markerselect, observable
         axes.set_ylabel('$\\langle \\vert M \\vert\\rangle$')
         axes.legend(fontsize=7)
     elif observable == 'Suceptibility':
-        axes.plot(beta , sucep,marker = markerselect,  ls = "",  label = lattice, markersize = 0.7)
+        axes.plot(beta , sucep, label = lattice)
+        #axes.plot(beta , sucep,marker = markerselect,  ls = "",  label = lattice, markersize = 0.7)
+        #axes.errorbar(beta, sucep, yerr = sucep_error, ls='none', ecolor = "red",capsize=1, capthick=0.2, elinewidth = 0.1)
         axes.set_xlabel('$\\beta$')
         axes.set_ylabel('$ \\chi$')
         axes.legend(fontsize=7)

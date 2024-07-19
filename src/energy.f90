@@ -59,7 +59,7 @@ contains
     real(dp),intent(in), dimension(:) :: h_array
     real(dp), intent(in) :: beta
     real(dp), intent(out) :: h_c
-   
+    
     h_c = beta**2*var(h_array)*L**2
     
   end subroutine heat_capacity
