@@ -129,8 +129,8 @@ module dynamics
     close(1)
     close(2)
 
-    !call t_d_ac(h_a, beta, route, "energy")
-    !call t_d_ac(M_a, beta, route, "magnetization")
+    call t_d_ac(h_a, beta, route, "energy")
+    call t_d_ac(M_a, beta, route, "magnetization")
 
     call block_err(h_a, N_block, beta, L, route, "energy" )
     call block_err(M_a, N_block, beta, L, route, "magnetization" )
