@@ -39,7 +39,7 @@ module dynamics
       do i = 1, size(x(1, :))
         do j = 1, size(x(1, :))
             !call random_number(r)
-          call drawrandomnumber(L, m ,n )
+          call drawrandomnumber(L, m ,n)
            xnew = -x(m,n)
            call delta_hamiltonian(x, m, n, dh)
            !call glauber(x(i,j), xnew, dh, beta)
@@ -49,9 +49,9 @@ module dynamics
      
       end subroutine random_sweep
 
-  subroutine drawrandomnumber(L, i ,j )
+  subroutine drawrandomnumber(L, i ,j)
     integer(i4), intent(in) :: L
-    integer(i4) , intent(out):: i,j
+    integer(i4) , intent(out):: i, j
 
     real(dp) :: r, p
     call random_number(r)
@@ -64,56 +64,43 @@ module dynamics
     
   end subroutine drawrandomnumber
 
-  subroutine thermalization(start, x, N_thermalization, L, beta)
-
+  subroutine thermalization(start, lattice, beta, L, N_thermalization, route)
+   
+    integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
     integer(i4), intent(in) :: N_thermalization, L
-    integer(i4), intent(inout), dimension(:,:) :: x
-    character(100), intent(in) :: start
-    real(dp) :: h, beta,  M
-    
-    call setInitialConfig(x,  start )
-    call magnetization(x,  L, M)
-    print*, M
+    real(dp), intent(in) :: beta
+    real(dp) :: h, m_n
+    character(100), intent(in) :: start, route
 
-    !open(newunit = unit, file = "./data/seq_update_Mag.dat")
-    open(newunit = unit, file = "./data/random_update_Mag.dat")
-    !open(newunit = unit, file = "./data/random_update_Mag_L18.dat")
+    call setInitialConfig(lattice, start)
 
-    call hamiltonian(x, L, h)
-    
-    write(unit, *) M
+    open(newunit = unit, file = trim(route)//"/Thermalization/beta="//trim(real2str(beta))//"_measures.dat")
     
     do i = 1, N_thermalization
-       
-       !call seq_sweep(x, beta)
-       call random_sweep(x, beta, L)
-       call magnetization(x,  L, M)
-      
-       !call hamiltonian(x, L, h)
-       !print*,h
-       write(unit, *) M
-       
+       call random_sweep(lattice, beta, L)
+       call hamiltonian(lattice, L, h)
+       call magnetization(lattice,  L, m_n)
+       write(unit, *) h, m_n
     end do
 
     close(unit)
     
   end subroutine thermalization
   
-  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, route)
+  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, N_block, N_sample, N_tries, route)
+
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
-    integer(i4), intent(in) :: N_measurements, N_skip, L
+    integer(i4), intent(in) :: L, N_measurements, N_skip, N_block, N_sample, N_tries
     real(dp), dimension(N_measurements) :: h_a
     real(dp), intent(in) :: beta
     real(dp) :: h, m_n, h_c, chi
     real(dp), dimension(N_measurements) :: M_a
     character(100), intent(in) :: start, route
-    
-    call setInitialConfig(lattice, start)
 
-    open(newunit = unit, file = trim(route)//"/beta="//trim(real2str(beta))//"_measure.dat")
-    
+    open(newunit = unit, file = trim(route)//"/Measures/beta="//trim(real2str(beta))//"_measures.dat")   
+
     do i = 1, N_measurements*N_skip
        
        call random_sweep(lattice, beta, L)
@@ -130,14 +117,29 @@ module dynamics
 
     close(unit)
 
-    open(newunit = unit, file = trim(route)//"/mean_values.dat", action = "write", position = "append")
+    open(unit = 1, file = trim(route)//"/Mean_values/energy_standard.dat", action = "write", position = "append")
+    open(unit = 2, file = trim(route)//"/Mean_values/magnetization_standard.dat", action = "write", position = "append")
     
     call heat_capacity(h_a, beta, h_c, L)   
     call susceptibility(M_a, beta, chi, L)
     
-    write(unit, *) beta,mean(h_a),std_err(h_a),h_c,std_err_com(h_a)*beta**2,mean(M_a),std_err(M_a),chi,std_err_com(M_a)*beta 
+    write(1, *) beta, mean(h_a), std_err(h_a), h_c, std_err_com(h_a)
+    write(2, *) beta, mean(M_a), std_err(M_a), chi, std_err_com(M_a)
 
-    close(unit)
+    close(1)
+    close(2)
+
+    call t_d_ac(h_a, beta, route, "energy")
+    call t_d_ac(M_a, beta, route, "magnetization")
+
+    call block_err(h_a, N_block, beta, L, route, "energy" )
+    call block_err(M_a, N_block, beta, L, route, "magnetization" )
+
+    call bootstrap_err(h_a, N_sample, N_tries, beta, L, route, "energy")
+    call bootstrap_err(M_a, N_sample, N_tries, beta, L, route, "magnetization")
+
+    call jk_err(h_a, N_block, beta, L, route, "energy" )
+    call jk_err(M_a, N_block, beta, L, route, "magnetization" )
     
   end subroutine measure_sweeps
 
