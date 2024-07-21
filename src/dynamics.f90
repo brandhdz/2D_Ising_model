@@ -93,17 +93,22 @@ module dynamics
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
     integer(i4), intent(in) :: L, N_measurements, N_skip, N_block, N_sample, N_tries
-    real(dp), dimension(N_measurements) :: h_a
+    real(dp), dimension(N_measurements) :: h_a, M_a
+    real(dp), dimension(N_measurements*N_skip) :: h_a_ac, M_a_ac
     real(dp), intent(in) :: beta
     real(dp) :: h, m_n, h_c, chi
-    real(dp), dimension(N_measurements) :: M_a
     character(100), intent(in) :: start, route
 
     open(newunit = unit, file = trim(route)//"/Measures/beta="//trim(real2str(beta))//"_measures.dat")   
 
     do i = 1, N_measurements*N_skip
-       
+
        call random_sweep(lattice, beta, L)
+
+       call hamiltonian(lattice, L, h)
+       call magnetization(lattice,  L, m_n)
+       h_a_ac(i) = h
+       M_a_ac(i) = m_n
        
        if ( mod(i, N_skip) == 0 ) then
           call hamiltonian(lattice, L, h)
@@ -129,14 +134,14 @@ module dynamics
     close(1)
     close(2)
 
-    !call t_d_ac(h_a, beta, route, "energy")
-    !call t_d_ac(M_a, beta, route, "magnetization")
+    call t_d_ac(h_a_ac, beta, route, "energy")
+    call t_d_ac(M_a_ac, beta, route, "magnetization")
 
-    !call block_err(h_a, N_block, beta, L, route, "energy" )
-    !call block_err(M_a, N_block, beta, L, route, "magnetization" )
+    call block_err(h_a, N_block, beta, L, route, "energy" )
+    call block_err(M_a, N_block, beta, L, route, "magnetization" )
 
-    !call bootstrap_err(h_a, N_sample, N_tries, beta, L, route, "energy")
-    !call bootstrap_err(M_a, N_sample, N_tries, beta, L, route, "magnetization")
+    call bootstrap_err(h_a, N_sample, N_tries, beta, L, route, "energy")
+    call bootstrap_err(M_a, N_sample, N_tries, beta, L, route, "magnetization")
 
     call jk_err(h_a, N_block, beta, L, route, "energy" )
     call jk_err(M_a, N_block, beta, L, route, "magnetization" )
