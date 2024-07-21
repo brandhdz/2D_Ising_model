@@ -208,50 +208,56 @@ contains
   integer(i4), intent(in) :: N_block, L
   real(dp), intent(in) :: beta
   character(*), intent(in) :: route, obs
-  real(dp), allocatable, dimension(:) :: b, m, mj
-  integer(i4) :: i, j, unit, quo, elms, N
-
+  real(dp), allocatable, dimension(:) :: m, mj
+  integer(i4) :: i, j, unit, N, quo, elms
+  real(dp) :: s1, s2
+  
   N = SIZE(x)
   quo = N/N_block
   elms = N - quo
-
+  
   allocate(m(N_block))
   allocate(mj(N_block))
-    
+  
+  s1 = 0d0
+  s2 = 0d0
+  
   open(newunit = unit, file = trim(route)//"/Mean_values/"//trim(obs)//"_jk.dat", action="write",position="append" )
   
   if ( obs == "energy" ) then
      
      do j = 1, N_block
-        allocate(b(N))
         do i = 1, N
            if ( (i-1)/quo + 1 /= j ) then
-              b(i) = x(i)
+              s1 = s1 + x(i)
+              s2 = s2 + x(i)**2
            end if
         end do
-        m(j) = SUM(b)/elms
-        mj(j) = beta**2*(SUM(b**2)/elms - (SUM(b)/elms)**2)*L**2
-        deallocate(b)
+        m(j) = s1/elms
+        mj(j) = beta**2*(s2/elms - m(j)**2)*L**2
+        s1 = 0d0
+        s2 = 0d0
      end do
     
     write(unit, *) beta, mean(m), std_err(m), mean(mj), SQRT(N_block*var(mj))
 
  else if ( obs == "magnetization" ) then
 
-    do j = 1, N_block
-       allocate(b(N))
-       do i = 1, N
-          if ( (i-1)/quo + 1 /= j ) then
-             b(i) = x(i)
-          end if
-       end do
-       m(j) = SUM(b)/elms
-       mj(j) = beta*(SUM(b**2)/elms - (SUM(b)/elms)**2)*L**2
-       deallocate(b)
-    end do
+     do j = 1, N_block
+        do i = 1, N
+           if ( (i-1)/quo + 1 /= j ) then
+              s1 = s1 + x(i)
+              s2 = s2 + x(i)**2
+           end if
+        end do
+        m(j) = s1/elms
+        mj(j) = beta*(s2/elms - m(j)**2)*L**2
+        s1 = 0d0
+        s2 = 0d0
+     end do
      
-    write(unit, *) beta, mean(m), std_err(m), mean(mj), SQRT(N_block*var(mj))
-
+     write(unit, *) beta, mean(m), std_err(m), mean(mj), SQRT(N_block*var(mj))
+    
  else
     
     error stop "Only energy or magnetization options are available"
