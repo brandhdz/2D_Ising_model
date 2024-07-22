@@ -88,7 +88,7 @@ module dynamics
     
   end subroutine thermalization
   
-  subroutine measure_sweeps(start, lattice, beta, L, N_measurements, N_skip, N_block, N_sample, N_tries, route)
+  subroutine measure_sweeps(lattice, beta, L, N_measurements, N_skip, N_block, N_sample, N_tries, route)
 
     integer(i4), intent(inout), dimension(:,:) :: lattice
     integer(i4) :: i, unit
@@ -97,7 +97,7 @@ module dynamics
     real(dp), dimension(N_measurements*N_skip) :: h_a_ac, M_a_ac
     real(dp), intent(in) :: beta
     real(dp) :: h, m_n, h_c, chi
-    character(100), intent(in) :: start, route
+    character(100), intent(in) :: route
 
     open(newunit = unit, file = trim(route)//"/Measures/beta="//trim(real2str(beta))//"_measures.dat")   
 
