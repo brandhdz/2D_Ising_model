@@ -1,15 +1,25 @@
 #set terminal pdf
 #set output "susceptibility.pdf"
-set title "Magnetic Susceptibility"
+
+set title "Magnetic Susceptibility - Bootstrap Error" font "Helvetica, 15"
 #set key box width 2.5 height 1.2 opaque
-set xlabel "β"
-set ylabel "χ"
 
-#pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L=100  Standard', '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L=100 Block', '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L=100 Bootstrap', '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L=100 Jackknife'
+set xlabel "β" font "Helvetica, 16"
+set ylabel "χ_m" font "Helvetica, 16"
 
-#pl '../data/START=hot,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L=100  Standard', '../data/START=hot,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L=100 Block', '../data/START=hot,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L=100 Bootstrap', '../data/START=hot,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L=100 Jackknife'
+#set xrange[0.0:15000.0]
+set yrange[0.0:45.0]
 
-#pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L=100  Standard',
-#pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L=100 Block',
-pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L=100 Bootstrap',
-#pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L=100 Jackknife'
+set grid 
+
+#Standard_error
+#pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L = 100', '../data/START=cold,ALGORITHM=Metropolis,L=80/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L = 80', '../data/START=cold,ALGORITHM=Metropolis,L=50/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L = 50', '../data/START=cold,ALGORITHM=Metropolis,L=30/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L = 30', '../data/START=cold,ALGORITHM=Metropolis,L=10/Mean_values/magnetization_standard.dat' u 1:4:5 w yerrorbars t 'L = 10'
+
+#Block_error
+#pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L = 100', '../data/START=cold,ALGORITHM=Metropolis,L=80/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L = 80', '../data/START=cold,ALGORITHM=Metropolis,L=50/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L = 50', '../data/START=cold,ALGORITHM=Metropolis,L=30/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L = 30', '../data/START=cold,ALGORITHM=Metropolis,L=10/Mean_values/magnetization_block.dat' u 1:4:5 w yerrorbars t 'L = 10'
+
+#Bootstrap_error
+pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L = 100', '../data/START=cold,ALGORITHM=Metropolis,L=80/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L = 80', '../data/START=cold,ALGORITHM=Metropolis,L=50/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L = 50', '../data/START=cold,ALGORITHM=Metropolis,L=30/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L = 30', '../data/START=cold,ALGORITHM=Metropolis,L=10/Mean_values/magnetization_bootstrap.dat' u 1:4:5 w yerrorbars t 'L = 10'
+
+#Jackknife_error
+#pl '../data/START=cold,ALGORITHM=Metropolis,L=100/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L = 100', '../data/START=cold,ALGORITHM=Metropolis,L=80/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L = 80', '../data/START=cold,ALGORITHM=Metropolis,L=50/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L = 50', '../data/START=cold,ALGORITHM=Metropolis,L=30/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L = 30', '../data/START=cold,ALGORITHM=Metropolis,L=10/Mean_values/magnetization_jk.dat' u 1:4:5 w yerrorbars t 'L = 10'

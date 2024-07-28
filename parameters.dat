@@ -1,5 +1,5 @@
 &input_parameters
-L = 100,
+L = 10,
 start = "cold",
 algorithm = "Metropolis",
 N_thermalization = 1000,

@@ -173,7 +173,7 @@ contains
        ms(j) = beta**2*var(s)*L**2
     end do
 
-    write(unit, *) beta, mean(m), std_err(m), mean(ms), SQRT(var(ms))
+    write(unit, *) beta, mean(m), SQRT(var(m)), mean(ms), SQRT(var(ms))
 
  else if ( obs == "magnetization" ) then
 
@@ -186,7 +186,7 @@ contains
        ms(j) = beta*var(s)*L**2
     end do
 
-    write(unit, *) beta, mean(m), std_err(m), mean(ms), SQRT(var(ms))
+    write(unit, *) beta, mean(m), SQRT(var(m)), mean(ms), SQRT(var(ms))
 
  else
     
@@ -239,7 +239,7 @@ contains
         s2 = 0d0
      end do
     
-    write(unit, *) beta, mean(m), std_err(m), mean(mj), SQRT(N_block*var(mj))
+    write(unit, *) beta, mean(m), SQRT(N_block*var(m)), mean(mj), SQRT(N_block*var(mj))
 
  else if ( obs == "magnetization" ) then
 
@@ -256,7 +256,7 @@ contains
         s2 = 0d0
      end do
      
-     write(unit, *) beta, mean(m), std_err(m), mean(mj), SQRT(N_block*var(mj))
+     write(unit, *) beta, mean(m), SQRT(N_block*var(m)), mean(mj), SQRT(N_block*var(mj))
     
  else
     
