@@ -17,4 +17,4 @@ B = -2.5
 C = 0.4
 fit f(x) '../data/START=cold,ALGORITHM=Metropolis,L=150/Mean_values/energy_jk.dat' every::35::55 u 1:4 via A, B, C
 
-pl '../data/START=cold,ALGORITHM=Metropolis,L=150/Mean_values/energy_jk.dat' every::35::55 u 1:4:5 w yerrorbars t 'L = 150', f(x) t 'β_c = 0.440122 +/- 0.0005735', 4/pi*(log(1+sqrt(2))/2)**2*(3*log(2)-pi/2-log(4*(x-log(1+sqrt(2))/2)**2))-4/pi*(log(1+sqrt(2))/2)**2*(3*log(2)-pi/2-log(4*(log(1+sqrt(2))/2)**2)) t "Onsager"
+#pl '../data/START=cold,ALGORITHM=Metropolis,L=150/Mean_values/energy_jk.dat' every::35::55 u 1:4:5 w yerrorbars t 'L = 150', f(x) t 'β_c = 0.440122 +/- 0.0005735', 4/pi*(log(1+sqrt(2))/2)**2*(3*log(2)-pi/2-log(4*(x-log(1+sqrt(2))/2)**2))-4/pi*(log(1+sqrt(2))/2)**2*(3*log(2)-pi/2-log(4*(log(1+sqrt(2))/2)**2)) t "Onsager"

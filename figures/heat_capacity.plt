@@ -1,11 +1,11 @@
 #set terminal pdf
 #set output "heat_capacity.pdf"
 
-set title "Heat Capacity - Jackknife Error" font "Helvetica, 15"
+set title "Heat Capacity" font "Helvetica, 15"
 #set key box width 2.5 height 1.2 opaque
 
 set xlabel "β" font "Helvetica, 16"
-set ylabel "C_ϵ" font "Helvetica, 16"
+set ylabel "c_ϵ" font "Helvetica, 16"
 
 #set xrange[0.0:15000.0]
 set yrange[0.0:3.0]

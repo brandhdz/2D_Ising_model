@@ -1,7 +1,7 @@
 #set terminal pdf
 #set output "energy.pdf"
 
-set title "Average Energy Density - Jackknife Error" font "Helvetica, 15"
+set title "Average Energy Density" font "Helvetica, 15"
 #set key box width 2.5 height 1.2 opaque
 
 set xlabel "β" font "Helvetica, 16"
